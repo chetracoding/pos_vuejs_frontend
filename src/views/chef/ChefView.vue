@@ -33,10 +33,10 @@
   </v-layout>
 
   <!-- Alert message -->
-  <base-alert v-model="success"  @hide-snackbar="success = false">
+  <!-- <base-alert v-model="success"  @hide-snackbar="success = false">
     <v-icon class="mr-2 text-h4 mdi mdi-check-circle"></v-icon>
     <h5 class="mt-2">Completed order successfully.</h5>
-  </base-alert>
+  </base-alert> -->
 </template>
 
 <script setup>
@@ -46,7 +46,7 @@ import { storeToRefs } from "pinia";
 
 // Variables
 const { getOrdersNotCompleted } = useOrderStore();
-const { orders, success } = storeToRefs(useOrderStore());
+const { orders } = storeToRefs(useOrderStore());
 
 const menus = ref([
   {

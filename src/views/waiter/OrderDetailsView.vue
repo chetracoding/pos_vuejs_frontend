@@ -72,6 +72,7 @@ const confirm = async () => {
     let dateTime = date + ' ' + time;
     let newOrder = {
         table_id: table._id,
+        table_number: table.table_number,
         datetime: dateTime,
         product_customizes: customizes.map(({ product_customize_id, quantity }) => ({ product_customize_id, quantity }))
     };

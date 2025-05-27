@@ -62,10 +62,9 @@ export default {
 .alert {
   overflow: hidden;
   position: fixed;
-  bottom: 100px;
   top: 0;
   right: 0;
-  margin-right: 5px;
+  margin-right: 4px;
   z-index: 100000;
 }
 </style>

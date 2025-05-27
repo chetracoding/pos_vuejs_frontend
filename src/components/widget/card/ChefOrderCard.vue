@@ -1,7 +1,5 @@
 <template>
-  <v-card
-    class="card rounded-lg bg-transparent"
-  >
+  <v-card class="card rounded-lg bg-transparent">
     <div v-if="order" class="bg-grey-darken-2 rounded-lg">
       <v-card-title class="d-flex justify-content-center p-2">
         <v-card-subtitle class="card-subtitle"
@@ -37,12 +35,13 @@
               >
             </div>
             <span style="font-size: 18px" class="align-self-end"
-              >x {{ order_detail.quantity }}</span>
+              >x {{ order_detail.quantity }}</span
+            >
           </div>
         </div>
       </div>
       <v-card-actions class="d-flex justify-content-center">
-        <primary-button @click="complete(order)" class="px-2 py-2">
+        <primary-button @click="makeAsComplete(order)" class="px-2 py-2">
           <v-icon
             icon="mdi-check-circle-outline"
             color="white"
@@ -54,23 +53,21 @@
     </div>
   </v-card>
 </template>
+
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, getCurrentInstance } from "vue";
 import { useOrderStore } from "@/stores/order";
 defineProps(["order"]);
 
 // Variables
+const instance = getCurrentInstance();
 const { updateOrdersToCompleted } = useOrderStore();
 
 // Methods
-const complete = (order) => {
-  const updateCompleteOrder = {
-    is_completed: true,
-    // is_paid: order["is_paid"],
-  };
-  updateOrdersToCompleted(order._id, updateCompleteOrder);
+const makeAsComplete = async ({ _id }) => {
+  await updateOrdersToCompleted(_id, { is_completed: true });
+  instance.root.$notif("Order is completed.", { type: "success" });
 };
-
 </script>
 
 <style scoped>

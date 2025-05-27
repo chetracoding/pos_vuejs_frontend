@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
 import http from "@/utils/http.js";
-import socket from "../common/websocket/index";
+import socket from "@/utils/websocket.js";
 
 export const useOrderStore = defineStore("order", {
   state: () => {
@@ -17,14 +17,14 @@ export const useOrderStore = defineStore("order", {
   },
   actions: {
     // Store Order
-    async storeOrder(order) {
+    async storeOrder({ table_number, ...payload }) {
       try {
         const { userData } = storeToRefs(useUserStore());
-        const res = await http.post("orders", order);
+        const res = await http.post("orders", payload);
         if (res.data.success) {
           socket.emit("msg_to_server", {
             ...userData.value,
-            msg: "Hello, you have a new order.",
+            msg: `Hello, you have a new order from table ${table_number}.`,
           });
           this.storeSuccess = true;
           return res.data.data;
@@ -61,7 +61,7 @@ export const useOrderStore = defineStore("order", {
     async updateOrdersToCompleted(orderId, order) {
       try {
         this.orders = this.orders.filter((r) => r._id !== orderId);
-        this.success = true;
+        // this.success = true;
         await http.put(`orders/${orderId}`, order);
         // if (res.data.success) {
         // }
