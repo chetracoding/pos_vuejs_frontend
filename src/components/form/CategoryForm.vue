@@ -89,10 +89,10 @@ export default {
       if (categoryInForm.value.name) {
         if (categoryInForm.value.category_id) {
           await updateCategory(categoryInForm.value);
-          instance.root.$notif("Update is success.", { type: "success" });
+          instance.root.$notif("Successful updated", { type: "success" });
         } else {
           await storeCategory(categoryInForm.value);
-          instance.root.$notif("Create is success.", { type: "success" });
+          instance.root.$notif("Successful created", { type: "success" });
         }
         if (!errMessage.value) {
           close();
