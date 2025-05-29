@@ -37,8 +37,9 @@
             </danger-button>
             <primary-button
               @click="
-              v$.$validate(); 
-              save();"
+                v$.$validate();
+                save();
+              "
             >
               <v-icon
                 icon="mdi-content-save-all"
@@ -55,14 +56,15 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, computed } from "vue";
+import { defineProps, defineEmits, computed, getCurrentInstance } from "vue";
 import { useTableStore } from "@/stores/table";
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import { storeToRefs } from "pinia";
 
 // Variables
-const { storeTable ,updateTable, clearForm } = useTableStore();
+const instance = getCurrentInstance();
+const { storeTable, updateTable, clearForm } = useTableStore();
 const { errMessage, tableInForm } = storeToRefs(useTableStore());
 const emit = defineEmits(["closeForm"]);
 const props = defineProps(["isShowForm"]);
@@ -76,9 +78,11 @@ const v$ = useVuelidate(rules, tableInForm);
 const save = async () => {
   if (tableInForm.value.table_number) {
     if (tableInForm.value.table_id) {
-     await updateTable(tableInForm.value);
+      await updateTable(tableInForm.value);
+      instance.root.$notif("Successful updated", { type: "success" });
     } else {
       await storeTable(tableInForm.value);
+      instance.root.$notif("Successful created", { type: "success" });
     }
     if (!errMessage.value) {
       emit("closeForm");

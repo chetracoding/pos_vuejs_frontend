@@ -129,7 +129,7 @@ export default {
         deleteCategory(id);
       }
       dialog.value = false;
-      instance.root.$notif("Delete is success.", { type: "success" });
+      instance.root.$notif("Successful deleted", { type: "success" });
     }
     function onEdit(category) {
       const { _id, name } = category;
