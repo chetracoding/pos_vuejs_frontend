@@ -1,23 +1,39 @@
-// Reference From : https://vuetifyjs.com/en/components/tables/
-
 <template>
   <!-- Dialog remove customize -->
-  <base-dialog v-model="isComplete" title="Tips" ms="Are you sure you want to check?">
+  <base-dialog
+    v-model="isComplete"
+    title="Tips"
+    ms="Are you sure you want to check out?"
+  >
     <danger-button @click="isComplete = false">
-      <v-icon icon="mdi-close-box-multiple" color="white" size="large"></v-icon> Cancel </danger-button>
+      <v-icon icon="mdi-close-box-multiple" color="white" size="large"></v-icon>
+      Cancel
+    </danger-button>
     <primary-button @click="complete()">
-      <v-icon icon="mdi-checkbox-multiple-marked" color="white" size="large"></v-icon>
+      <v-icon
+        icon="mdi-checkbox-multiple-marked"
+        color="white"
+        size="large"
+      ></v-icon>
       Confirm
     </primary-button>
   </base-dialog>
 
   <!-- Create table of list orders -->
-  <v-card v-for="order in props.orders" :key="order._id" class="d-flex pa-2 ma-2 bg-grey-darken-2 rounded-lg">
+  <v-card
+    v-for="order in props.orders"
+    :key="order._id"
+    class="d-flex pa-2 ma-2 bg-grey-darken-2 rounded-lg"
+  >
     <v-card-text class="d-flex justify-space-between">
       <span class="w-50">ID : {{ order._id }}</span>
       <span class="w-25">Table : {{ order.table_id.table_number }}</span>
-      <span class="w-25">{{ new Date(order.datetime).toLocaleDateString() }}</span>
-      <span class="w-25">{{ new Date(order.datetime).toLocaleTimeString() }}</span>
+      <span class="w-25">{{
+        new Date(order.datetime).toLocaleDateString()
+      }}</span>
+      <span class="w-25">{{
+        new Date(order.datetime).toLocaleTimeString()
+      }}</span>
     </v-card-text>
     <v-card-actions>
       <dark-button @click="(orderInfo = order), (dialog = true)">
@@ -30,12 +46,14 @@
         Print
       </dark-button>
 
-      <dark-button @click="
-        isComplete = true;
-      orderClicked = order;
-      "><v-icon icon="mdi-checkbox-marked-circle" color="red-accent-2">
+      <dark-button
+        @click="
+          isComplete = true;
+          orderClicked = order;
+        "
+        ><v-icon icon="mdi-checkbox-marked-circle" color="red-accent-2">
         </v-icon>
-        Check
+        Check out
       </dark-button>
     </v-card-actions>
   </v-card>
@@ -43,7 +61,9 @@
   <!-- Dialog of confirm order -->
   <v-dialog v-model="dialog" persistent width="600">
     <v-card class="rounded-lg">
-      <v-card-title class="bg-red-accent-2 text-center">Order Details</v-card-title>
+      <v-card-title class="bg-red-accent-2 text-center"
+        >Order Details</v-card-title
+      >
       <v-card-text>
         <div class="d-flex text-darken-4">
           <h6>ID:</h6>
@@ -51,7 +71,9 @@
         </div>
         <div class="d-flex text-darken-4">
           <h6>Table:</h6>
-          <h6 class="ml-2 font-weight-bold">{{ orderInfo.table_id.table_number }}</h6>
+          <h6 class="ml-2 font-weight-bold">
+            {{ orderInfo.table_id.table_number }}
+          </h6>
         </div>
         <div class="d-flex text-darken-4">
           <h6>Date Time:</h6>
@@ -63,17 +85,28 @@
         <!-- Card of list -->
         <h6 class="text-darken-4 font-weight-bold mt-3">Summary Orders</h6>
         <v-list>
-          <div v-for="order_detail in orderInfo.order_details" :key="order_detail._id">
+          <div
+            v-for="order_detail in orderInfo.order_details"
+            :key="order_detail._id"
+          >
             <div>
-              <span>{{ order_detail.product_customize_id.product_id.name }}</span><br />
+              <span>{{
+                order_detail.product_customize_id.product_id.name
+              }}</span
+              ><br />
               <span>size / {{ order_detail.product_customize_id.size }}</span>
             </div>
             <div class="d-flex">
               <span>X{{ order_detail.quantity }}</span>
               <v-spacer></v-spacer>
-              <span>${{
-                (order_detail.quantity * order_detail.product_customize_id.price).toFixed(2)
-              }}</span>
+              <span
+                >${{
+                  (
+                    order_detail.quantity *
+                    order_detail.product_customize_id.price
+                  ).toFixed(2)
+                }}</span
+              >
             </div>
             <hr />
           </div>
@@ -109,9 +142,7 @@
           <div class="p-1">
             <h6 class="text-subtitle-1">
               លេខ / ID :
-              <span class="font-weight-bold">{{
-                orderPrint._id
-              }}</span>
+              <span class="font-weight-bold">{{ orderPrint._id }}</span>
             </h6>
             <h6 class="text-subtitle-1">
               លេខតុ / Table :
@@ -121,7 +152,9 @@
             </h6>
             <h6 class="text-subtitle-1">
               កាលបរិច្ឆេទ / Date Time :
-              <span class="font-weight-bold">{{ new Date(orderPrint.datetime).toLocaleString() }}</span>
+              <span class="font-weight-bold">{{
+                new Date(orderPrint.datetime).toLocaleString()
+              }}</span>
             </h6>
           </div>
           <!-- list of food -->
@@ -152,7 +185,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="order_detail in orderPrint.order_details" :key="order_detail._id">
+              <tr
+                v-for="order_detail in orderPrint.order_details"
+                :key="order_detail._id"
+              >
                 <td class="text-center">
                   {{ order_detail.product_customize_id.product_id.name }}
                 </td>
@@ -165,7 +201,10 @@
                 </td>
                 <td class="text-center">
                   ${{
-                    (order_detail.quantity * order_detail.product_customize_id.price).toFixed(2)
+                    (
+                      order_detail.quantity *
+                      order_detail.product_customize_id.price
+                    ).toFixed(2)
                   }}
                 </td>
               </tr>
@@ -175,8 +214,7 @@
           <div class="p-1">
             <h6 class="text-subtitle-1">
               សរុប / Sub Total :
-              <span class="font-weight-bold">
-                ${{ totalPriceOrderPrint }}</span>
+              <span class="font-weight-bold"> ${{ totalPriceOrderPrint }}</span>
             </h6>
             <br />
             <i class="font-weight-bold"> Thanks, Please come again. </i><br />
@@ -188,11 +226,12 @@
 </template>
 
 <script setup>
+import { ref, defineProps, computed, getCurrentInstance } from "vue";
 import { useOrderStore } from "@/stores/order";
-import { ref, defineProps, computed } from "vue";
 import printJS from "print-js";
 
 // Variables
+const instance = getCurrentInstance();
 const props = defineProps(["orders"]);
 const dialog = ref(false);
 const orderInfo = ref(null);
@@ -205,28 +244,30 @@ const { updateOrdersToPaid } = useOrderStore();
 // Total price for print
 const totalPriceOrderPrint = computed(() => {
   return getTotalPrice(orderPrint.value).toFixed(2);
-})
+});
 // Total price to view
 const totalPriceOrderInfo = computed(() => {
   return getTotalPrice(orderInfo.value).toFixed(2);
-})
+});
 
 // Method
 const getTotalPrice = (order) => {
   const sum = ref(0);
   for (let order_detail of order.order_details) {
-    sum.value += order_detail.product_customize_id.price * order_detail.quantity;
+    sum.value +=
+      order_detail.product_customize_id.price * order_detail.quantity;
   }
   return sum.value;
 };
-const complete = () => {
+const complete = async () => {
   const updatePaidOrde = {
     is_completed: orderClicked.value.is_completed,
     is_paid: true,
   };
-  updateOrdersToPaid(orderClicked.value._id, updatePaidOrde);
   isComplete.value = false;
+  await updateOrdersToPaid(orderClicked.value._id, updatePaidOrde);
   orderClicked.value = null;
+  instance.root.$notif("Successful checked out", { type: "success" });
 };
 
 const printClicked = async (order) => {

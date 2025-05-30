@@ -66,7 +66,7 @@ const { updateOrdersToCompleted } = useOrderStore();
 // Methods
 const makeAsComplete = async ({ _id }) => {
   await updateOrdersToCompleted(_id, { is_completed: true });
-  instance.root.$notif("Order is completed.", { type: "success" });
+  instance.root.$notif("Successful completed", { type: "success" });
 };
 </script>
 

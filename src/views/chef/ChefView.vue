@@ -20,7 +20,11 @@
 
           <!-- List orders card -->
           <div class="grid-container gap-2 mr-4" v-if="orders.length > 0">
-            <chef-order-card v-for="order in orders" :key="order._id" :order="order">
+            <chef-order-card
+              v-for="order in orders"
+              :key="order._id"
+              :order="order"
+            >
             </chef-order-card>
           </div>
           <!-- No order -->
@@ -31,12 +35,6 @@
       </main>
     </v-main>
   </v-layout>
-
-  <!-- Alert message -->
-  <!-- <base-alert v-model="success"  @hide-snackbar="success = false">
-    <v-icon class="mr-2 text-h4 mdi mdi-check-circle"></v-icon>
-    <h5 class="mt-2">Completed order successfully.</h5>
-  </base-alert> -->
 </template>
 
 <script setup>
@@ -53,7 +51,7 @@ const menus = ref([
     link: "/chef",
     title: "Order",
     icon: "mdi-storefront-plus",
-  }
+  },
 ]);
 
 // Lifecycle hook
