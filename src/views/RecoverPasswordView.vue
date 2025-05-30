@@ -14,7 +14,9 @@
           >Enter your <span class="text-red-accent-2">email address</span> to
           send link to reset your password.</span
         > -->
-        <span>{{ $t("app.auth.forgot.subTitle", { email: $t("app.auth.email") }) }}</span>
+        <span>{{
+          $t("app.auth.forgot.subTitle", { email: $t("app.auth.email") })
+        }}</span>
       </div>
       <div class="w-100 mt-4">
         <v-text-field
@@ -53,24 +55,19 @@
       >
     </v-form>
   </div>
-
-  <!-- Alert success -->
-  <base-alert v-model="success" @hide-snackbar="success = false">
-    <v-icon class="mr-2 text-h4 mdi mdi-check-circle"></v-icon>
-    <h6 class="mt-2">{{ $t("app.auth.forgot.success") }}</h6>
-  </base-alert>
 </template>
 
 <script setup>
+import { ref, getCurrentInstance } from "vue";
 import http from "@/utils/http.js";
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
 import useVuelidate from "@vuelidate/core";
 import { required, email, helpers } from "@vuelidate/validators";
-import { ref } from "vue";
 import { t } from "../plugins/i18n";
 
 // Variables
+const instance = getCurrentInstance();
 const router = useRouter();
 const success = ref(false);
 const errMessage = ref("");
@@ -92,19 +89,15 @@ const v$ = useVuelidate(rules, credential);
 const send = async () => {
   if (v$.value.$errors.length === 0) {
     try {
-      const res = await http.post("auth/send-pwd", credential);
-      if (res.data.success) {
-        success.value = true;
-        setTimeout(() => {
-          router.push("/login");
-        }, 6000);
-      }
+      await http.post("auth/send-pwd", credential);
+      success.value = true;
+      instance.root.$notif(t("app.auth.forgot.success"), {
+        type: "success",
+        timeout: null,
+      });
+      router.push("/login");
     } catch (err) {
-      if (err.response.status === 404) {
-        errMessage.value = t('app.rules.email');
-      } else {
-        errMessage.value = t("app.auth.forgot.success");
-      }
+      instance.root.$notif("Your email is invalid", { type: "error" });
     }
   }
 };

@@ -48,5 +48,3 @@ export default i18n;
 export const t = (key) => {
   return i18n.global.t(key);
 };
-
-// export const lng = currentLng;

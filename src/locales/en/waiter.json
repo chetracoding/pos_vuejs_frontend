@@ -2,7 +2,7 @@
   "search": "Search for product...",
   "selectTable": "Select table",
   "all": "All",
-  "product": "products",
+  "product": "Product",
   "size": "Size",
   "price": "Price",
   "cart": "Cart",
@@ -18,8 +18,8 @@
     "deleteCustom": "Are you sure you don't want it?"
   },
   "alert": {
-    "orderSuccess": "Ordered succeefully.",
-    "selectFood": "Please select food!",
-    "selectTable": "Please select table!"
+    "orderSuccess": "Successful ordered",
+    "selectFood": "Please select product",
+    "selectTable": "Please select table"
   }
 }

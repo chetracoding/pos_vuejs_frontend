@@ -72,25 +72,19 @@
       </v-card>
     </v-dialog>
   </v-form>
-
-  <!-- Alert update success -->
-  <base-alert v-model="updateSuccess" @hide-snackbar="updateSuccess = false">
-    <v-icon class="mr-2 text-h4 mdi mdi-check-circle"></v-icon>
-    <h5 class="mt-2">Updated store successfully.</h5>
-  </base-alert>
 </template>
 
 <script setup>
-// Import
+import { defineProps, computed, defineEmits, getCurrentInstance } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
-import { defineProps, computed, defineEmits } from "vue";
 import { useStoreStore } from "@/stores/store";
 import { storeToRefs } from "pinia";
 
 // Variables
+const instance = getCurrentInstance();
 const { updateStore } = useStoreStore();
-const { storeInForm, updateSuccess } = storeToRefs(useStoreStore());
+const { storeInForm } = storeToRefs(useStoreStore());
 const emit = defineEmits(["closeForm"]);
 const props = defineProps(["isShowForm"]);
 
@@ -106,6 +100,7 @@ const save = async () => {
   if (v$.value.$errors.length === 0) {
     const { store_id, name, city, street } = storeInForm.value;
     await updateStore({ store_id, name, city, street });
+    instance.root.$notif("Successful updated", { type: "success" });
     emit("closeForm");
   }
 };
