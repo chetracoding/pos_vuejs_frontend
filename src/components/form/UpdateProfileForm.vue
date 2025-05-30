@@ -1,5 +1,3 @@
-<!-- Referemce: https://play.vuetifyjs.com/
-<!- Dialog for update profile -->
 <template>
   <!-- Form update profile -->
   <v-form>
@@ -15,38 +13,83 @@
           <v-row class="d-flex px-2 flex-column justify-center gap-2">
             <v-tooltip v-model="showToolTip" location="center">
               <template v-slot:activator="{ props }">
-                <v-avatar v-bind="props" size="150" class="profile align-self-center" elevation="24">
-                  <v-img v-if="userProfileInForm.image" :src="userProfileInForm.image" alt="user profile" cover></v-img>
+                <v-avatar
+                  v-bind="props"
+                  size="150"
+                  class="profile align-self-center"
+                  elevation="24"
+                >
+                  <v-img
+                    v-if="userProfileInForm.image"
+                    :src="userProfileInForm.image"
+                    alt="user profile"
+                    cover
+                  ></v-img>
                   <span v-else class="text-h2 text-white">{{ initials }}</span>
 
-                  <input @change="imageUpload($event)" type="file" class="input-image" accept="image/png, image/jpeg" />
+                  <input
+                    @change="imageUpload($event)"
+                    type="file"
+                    class="input-image"
+                    accept="image/png, image/jpeg"
+                  />
                 </v-avatar>
               </template>
               <div class="py-2 d-flex flex-column align-center">
-                <v-icon class="text-h4" color="white" icon="mdi-camera-image"></v-icon>
+                <v-icon
+                  class="text-h4"
+                  color="white"
+                  icon="mdi-camera-image"
+                ></v-icon>
                 <span>Upload image</span>
               </div>
             </v-tooltip>
             <div class="gap-2 mt-2">
               <div class="input-group gap-2">
                 <!--Input first name field-->
-                <v-text-field v-model="userProfileInForm.first_name" class="text-black" variant="outlined"
-                  label="First name" density="compact" :error-messages="v$.first_name.$errors.map((e) => e.$message)"
-                  @blur="v$.first_name.$touch"></v-text-field>
+                <v-text-field
+                  v-model="userProfileInForm.first_name"
+                  class="text-black"
+                  variant="outlined"
+                  label="First name"
+                  density="compact"
+                  :error-messages="v$.first_name.$errors.map((e) => e.$message)"
+                  @blur="v$.first_name.$touch"
+                ></v-text-field>
                 <!--Input last name field-->
-                <v-text-field v-model="userProfileInForm.last_name" class="text-black" label="Last name" density="compact"
-                  variant="outlined" :error-messages="v$.last_name.$errors.map((e) => e.$message)"
-                  @blur="v$.last_name.$touch"></v-text-field>
+                <v-text-field
+                  v-model="userProfileInForm.last_name"
+                  class="text-black"
+                  label="Last name"
+                  density="compact"
+                  variant="outlined"
+                  :error-messages="v$.last_name.$errors.map((e) => e.$message)"
+                  @blur="v$.last_name.$touch"
+                ></v-text-field>
               </div>
               <!--Select gender field-->
-              <v-select v-model="userProfileInForm.gender" label="Gender" :items="['Male', 'Female', 'Other']"
-                density="compact" class="text-black mt-2" variant="outlined"
-                :error-messages="v$.gender.$errors.map((e) => e.$message)" @blur="v$.gender.$touch"></v-select>
+              <v-select
+                v-model="userProfileInForm.gender"
+                label="Gender"
+                :items="['Male', 'Female', 'Other']"
+                density="compact"
+                class="text-black mt-2"
+                variant="outlined"
+                :error-messages="v$.gender.$errors.map((e) => e.$message)"
+                @blur="v$.gender.$touch"
+              ></v-select>
               <!--Input email field-->
-              <v-text-field v-model="userProfileInForm.email" class="mt-1 text-black" label="Email" density="compact"
-                variant="outlined" :error-messages="`${v$.email.$errors.map(
+              <v-text-field
+                v-model="userProfileInForm.email"
+                class="mt-1 text-black"
+                label="Email"
+                density="compact"
+                variant="outlined"
+                :error-messages="`${v$.email.$errors.map(
                   (e) => e.$message
-                )}${errMessage}`" @blur="v$.email.$touch"></v-text-field>
+                )}${errMessage}`"
+                @blur="v$.email.$touch"
+              ></v-text-field>
             </div>
           </v-row>
         </v-container>
@@ -59,11 +102,16 @@
             Close
           </danger-button>
           <!--Save button-->
-          <primary-button class="mr-1" type="submit" @click="() => {
-            v$.$validate();
-            save();
-          }
-            ">
+          <primary-button
+            class="mr-1"
+            type="submit"
+            @click="
+              () => {
+                v$.$validate();
+                save();
+              }
+            "
+          >
             <v-icon icon="mdi-content-save-all" color="white" size="large">
             </v-icon>
             Save
@@ -75,19 +123,16 @@
   </v-form>
 
   <!-- Uploading progress -->
-  <uploading-progress v-model="showProgress" :uploadValue="uploadValue"></uploading-progress>
-
-  <!-- Alert update success -->
-  <base-alert v-model="updateSuccess" @hide-snackbar="updateSuccess = false">
-    <v-icon class="mr-2 text-h4 mdi mdi-check-circle"></v-icon>
-    <h5 class="mt-2">Updated profile successfully.</h5>
-  </base-alert>
+  <uploading-progress
+    v-model="showProgress"
+    :uploadValue="uploadValue"
+  ></uploading-progress>
 </template>
 
 <script setup>
 // Import
+import { onMounted, ref, getCurrentInstance } from "vue";
 import firebase from "firebase";
-import { onMounted, ref } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
 import { defineProps, computed, defineEmits } from "vue";
@@ -96,11 +141,10 @@ import { useRoleStore } from "@/stores/role";
 import { storeToRefs } from "pinia";
 
 // Variables
+const instance = getCurrentInstance();
 const { updateProfile } = useUserStore();
 const { getRoles } = useRoleStore();
-const { userProfileInForm, errMessage, updateSuccess } = storeToRefs(
-  useUserStore()
-);
+const { userProfileInForm, errMessage } = storeToRefs(useUserStore());
 const emit = defineEmits(["closeForm"]);
 const props = defineProps(["isShowForm", "initials"]);
 const showToolTip = ref(false);
@@ -118,8 +162,17 @@ const v$ = useVuelidate(rules, userProfileInForm);
 
 const save = async () => {
   if (v$.value.$errors.length === 0) {
-    const { user_id, first_name, last_name, gender, email, image } = userProfileInForm.value;
-    await updateProfile({ user_id, first_name, last_name, gender, email, image });
+    const { user_id, first_name, last_name, gender, email, image } =
+      userProfileInForm.value;
+    await updateProfile({
+      user_id,
+      first_name,
+      last_name,
+      gender,
+      email,
+      image,
+    });
+    instance.root.$notif("Successful updated", { type: "success" });
     if (!errMessage.value) {
       emit("closeForm");
     }
