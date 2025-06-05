@@ -6,13 +6,12 @@
 
 <script setup>
 import socket from "@/utils/websocket.js";
-import { onMounted, getCurrentInstance } from "vue";
-import { useOrderStore } from "@/stores/order";
-import { ref } from "vue";
-import i18n from "./plugins/i18n";
-import { useUserStore } from "@/stores/user";
+import { onMounted, getCurrentInstance,ref } from "vue";
 import { storeToRefs } from "pinia";
 import { RouterView } from "vue-router";
+import i18n from "./plugins/i18n";
+import { useOrderStore } from "@/stores/order";
+import { useUserStore } from "@/stores/user";
 import Notif from "./lib/components/AppNotification.vue";
 import AppDelay from "./lib/components/AppDelay.vue";
 
