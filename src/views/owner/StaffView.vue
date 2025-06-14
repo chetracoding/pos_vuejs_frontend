@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <!-- Left side bar -->
-        <ResOwnerSideBar />
+    <ResOwnerSideBar />
 
     <!-- Main -->
     <v-main>
@@ -90,15 +90,14 @@ const findStaffId = ref(null);
 // On edit staff
 const onEdit = (staff) => {
   isShowForm.value = true;
-  const { _id, first_name, last_name, gender, email, role_id } = staff;
-  // staff["role_id"] = staff.role.id;
+  const { _id, first_name, last_name, gender, email, role } = staff;
   staffInForm.value = {
     user_id: _id,
     first_name,
     last_name,
     gender,
     email,
-    role_id: role_id._id,
+    role_id: role._id,
   };
 };
 // On delete staff
