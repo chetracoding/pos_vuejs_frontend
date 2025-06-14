@@ -1,18 +1,14 @@
 <template>
   <v-layout>
     <!-- Left side bar -->
-    <res-owner-side-bar></res-owner-side-bar>
+    <ResOwnerSideBar />
 
     <header-component :title="$t('app.nav.home')" />
 
     <v-main class="grid-container mx-2 mt-2 gap-2">
-      <div
-        @click="to('product')"
-        class="cursor-pointer bg-grey-darken-2 rounded-lg d-flex justify-space-between align-center"
-      >
-        <div
-          class="w-50 d-flex flex-column align-center card-summary py-2 m-2 rounded-lg text-center"
-        >
+      <div @click="to('product')"
+        class="cursor-pointer bg-grey-darken-2 rounded-lg d-flex justify-space-between align-center">
+        <div class="w-50 d-flex flex-column align-center card-summary py-2 m-2 rounded-lg text-center">
           <v-icon icon="mdi-cube-outline" color="white" size="x-large"></v-icon>
           <span class="mt-1">{{ $t("app.nav.product") }}</span>
         </div>
@@ -25,18 +21,10 @@
           </h5>
         </div>
       </div>
-      <div
-        @click="to('category')"
-        class="cursor-pointer bg-grey-darken-2 rounded-lg d-flex justify-space-between align-center"
-      >
-        <div
-          class="w-50 d-flex flex-column align-center card-summary py-2 m-2 rounded-lg text-center"
-        >
-          <v-icon
-            icon="mdi-shape-plus-outline"
-            color="white"
-            size="x-large"
-          ></v-icon>
+      <div @click="to('category')"
+        class="cursor-pointer bg-grey-darken-2 rounded-lg d-flex justify-space-between align-center">
+        <div class="w-50 d-flex flex-column align-center card-summary py-2 m-2 rounded-lg text-center">
+          <v-icon icon="mdi-shape-plus-outline" color="white" size="x-large"></v-icon>
           <span class="mt-1">{{ $t("app.nav.category") }}</span>
         </div>
         <div class="w-50 d-flex justify-center">
@@ -48,13 +36,9 @@
           </h5>
         </div>
       </div>
-      <div
-        @click="to('table')"
-        class="cursor-pointer bg-grey-darken-2 rounded-lg d-flex justify-space-between align-center"
-      >
-        <div
-          class="w-50 d-flex flex-column align-center card-summary py-2 m-2 rounded-lg text-center"
-        >
+      <div @click="to('table')"
+        class="cursor-pointer bg-grey-darken-2 rounded-lg d-flex justify-space-between align-center">
+        <div class="w-50 d-flex flex-column align-center card-summary py-2 m-2 rounded-lg text-center">
           <v-icon icon="mdi-table-chair" color="white" size="x-large"></v-icon>
           <span class="mt-1">{{ $t("app.nav.table") }}</span>
         </div>
@@ -65,18 +49,10 @@
           <h5 v-else class="mt-2">{{ tables.length }} {{ $t("app.item") }}</h5>
         </div>
       </div>
-      <div
-        @click="to('staff')"
-        class="cursor-pointer bg-grey-darken-2 rounded-lg d-flex justify-space-between align-center"
-      >
-        <div
-          class="w-50 d-flex flex-column align-center card-summary py-2 m-2 rounded-lg text-center"
-        >
-          <v-icon
-            icon="mdi-account-group-outline"
-            color="white"
-            size="x-large"
-          ></v-icon>
+      <div @click="to('staff')"
+        class="cursor-pointer bg-grey-darken-2 rounded-lg d-flex justify-space-between align-center">
+        <div class="w-50 d-flex flex-column align-center card-summary py-2 m-2 rounded-lg text-center">
+          <v-icon icon="mdi-account-group-outline" color="white" size="x-large"></v-icon>
           <span class="mt-1">{{ $t("app.nav.staff") }}</span>
         </div>
         <div class="w-50 d-flex justify-center">
@@ -88,13 +64,9 @@
           </h5>
         </div>
       </div>
-      <div
-        @click="to('sale')"
-        class="cursor-pointer bg-grey-darken-2 rounded-lg d-flex justify-space-between align-center"
-      >
-        <div
-          class="w-50 d-flex flex-column align-center card-summary py-2 m-2 rounded-lg text-center"
-        >
+      <div @click="to('sale')"
+        class="cursor-pointer bg-grey-darken-2 rounded-lg d-flex justify-space-between align-center">
+        <div class="w-50 d-flex flex-column align-center card-summary py-2 m-2 rounded-lg text-center">
           <v-icon icon="mdi-chart-bar" color="white" size="x-large"></v-icon>
           <span class="mt-1">{{ $t("app.nav.sale") }}</span>
         </div>
@@ -105,13 +77,9 @@
           <h5 v-else class="mt-2">{{ totalProduct }} {{ $t("app.item") }}</h5>
         </div>
       </div>
-      <div
-        @click="to('money')"
-        class="cursor-pointer bg-grey-darken-2 rounded-lg d-flex justify-space-between align-center"
-      >
-        <div
-          class="w-50 d-flex flex-column align-center card-summary py-2 m-2 rounded-lg text-center"
-        >
+      <div @click="to('money')"
+        class="cursor-pointer bg-grey-darken-2 rounded-lg d-flex justify-space-between align-center">
+        <div class="w-50 d-flex flex-column align-center card-summary py-2 m-2 rounded-lg text-center">
           <v-icon icon="mdi-finance" color="white" size="x-large"></v-icon>
           <span class="mt-1">{{ $t("app.nav.money") }}</span>
         </div>
@@ -126,6 +94,7 @@
 </template>
 
 <script setup>
+import ResOwnerSideBar from "@/components/aside/ResOwnerSideBar";
 import { useProductStore } from "@/stores/product";
 import { useCategoryStore } from "@/stores/category";
 import { useTableStore } from "@/stores/table";

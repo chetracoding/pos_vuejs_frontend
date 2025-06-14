@@ -2,7 +2,7 @@
   <v-layout>
     <v-main class="ml-2">
       <!-- Left side bar -->
-      <res-owner-side-bar></res-owner-side-bar>
+        <ResOwnerSideBar />
 
       <!-- Header top -->
       <header-component :title="$t('app.crud.product.title')">
@@ -128,7 +128,7 @@
 </template>
 
 <script setup>
-// Import
+import ResOwnerSideBar from "@/components/aside/ResOwnerSideBar";
 import { computed, onMounted, getCurrentInstance } from "vue";
 import { useProductStore } from "@/stores/product";
 import { useCategoryStore } from "@/stores/category";

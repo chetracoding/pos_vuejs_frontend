@@ -1,0 +1,7 @@
+export const ROLE_NAME = {
+  SUPER_ADMIN: "SUPER_ADMIN",
+  ADMIN: "ADMIN",
+  CASHIER: "CASHIER",
+  CHEF: "CHEF",
+  WAITER: "WAITER",
+};

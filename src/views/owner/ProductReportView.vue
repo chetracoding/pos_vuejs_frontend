@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <!-- Left side bar -->
-    <res-owner-side-bar></res-owner-side-bar>
+        <ResOwnerSideBar />
 
     <v-main class="ml-2">
       <!-- Header top -->
@@ -71,8 +71,9 @@
     </v-main>
   </v-layout>
 </template>
+
 <script setup>
-// Imports
+import ResOwnerSideBar from "@/components/aside/ResOwnerSideBar";
 import { onMounted, ref, computed } from "vue";
 import { useReportsStore } from "@/stores/reports";
 import { storeToRefs } from "pinia";

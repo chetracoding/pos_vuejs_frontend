@@ -1,7 +1,8 @@
 <template>
   <v-layout>
     <!-- Left side bar -->
-    <res-owner-side-bar></res-owner-side-bar>
+        <ResOwnerSideBar />
+
     <v-main class="ml-2">
       <header-component :title="$t('app.crud.category.title')">
       </header-component>
@@ -104,11 +105,15 @@
 </template>
 
 <script>
+import ResOwnerSideBar from "@/components/aside/ResOwnerSideBar";
 import { onMounted, ref, getCurrentInstance } from "vue";
 import { useCategoryStore } from "@/stores/category";
 import { storeToRefs } from "pinia";
 
 export default {
+    components: {
+            ResOwnerSideBar
+  },
   setup() {
     // data
     const { categoryInForm, categories } = storeToRefs(useCategoryStore());

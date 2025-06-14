@@ -26,7 +26,7 @@ export const useUserStore = defineStore("user", {
       createSuccess: false,
       updateSuccess: false,
       errMessage: "",
-      user: { token: null, data: null },
+      user: { token: null, data: null, role: {}, permissions: [] },
       staff: [],
       deleteSuccess: false,
     };
@@ -39,14 +39,15 @@ export const useUserStore = defineStore("user", {
       this.userProfileInForm = { ...initialsUserProfile };
     },
     async getUser() {
-      // const { getCookie } = useCookieStore();
       try {
-        // if (getCookie("user_token")) {
         const res = await http.get("auth/user");
-        if (res.data.success) {
-          this.user.data = res.data.data;
-        }
-        // }
+        const {
+          data: { user, role, permissions },
+        } = res.data;
+
+        this.user.data = user;
+        this.user.role = role;
+        this.user.permissions = permissions;
       } catch (err) {
         this.user.data = null;
       }

@@ -124,7 +124,7 @@ const logout = async () => {
   try {
     // await http.post("logout");
     isLogout.value = false;
-    removeCookie("user_token");
+    removeCookie("token");
     removeCookie("user_role");
     removeCookie("user");
     router.push("/login");

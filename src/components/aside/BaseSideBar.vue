@@ -1,8 +1,8 @@
 <template>
   <v-navigation-drawer class="rounded-lg bg-grey-darken-2" width="110" mobile-breakpoint="xs" permanent>
     <div class="d-flex flex-column align-center mt-2">
-      <v-list-item v-for="item in menus" :key="item" :to="item.link" active-class="active" width="100px" height="80px"
-        class="menu-items text-white rounded-lg text-decoration-none">
+      <v-list-item v-for="item in menus" :key="item" :to="item.link" active-class="active" width="100px" height="70px"
+        class="menu-items text-white rounded-lg text-decoration-none mb-1">
         <div class="d-flex flex-column align-center" width="'10px'">
           <v-icon :icon="item.icon"></v-icon>
           <span class="font-inter text-subtitle-2">{{ item.title }}</span>

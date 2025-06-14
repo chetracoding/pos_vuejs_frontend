@@ -7,7 +7,7 @@ export async function isUserLogin() {
   let isLogin = false;
   let isRefresh = false;
   const { getCookie } = useCookieStore();
-  const token = getCookie("user_token");
+  const token = getCookie("token");
   if (!token) return { login: isLogin };
   if (token && !user.value.token) {
     user.value.token = token;
@@ -19,26 +19,28 @@ export async function isUserLogin() {
 
 export const loggedIn = async (to, from, next, router) => {
   const { getUser } = useUserStore();
-  const { userData } = storeToRefs(useUserStore());
+  // const { userData } = storeToRefs(useUserStore());
   const isLogin = await isUserLogin();
+
   if (!isLogin.login && to.meta.isSecure) {
-    router.push("/login");
+    router.push({ name: "Login" });
   } else {
     if (isLogin.login && isLogin.isRefresh) {
       await getUser();
-      if (
-        (to.meta.isSecure && to.meta.role !== userData.value.role.name) ||
-        (to.meta.auth && userData.value)
-      ) {
-        next(
-          router.options.routes.find(
-            (r) =>
-              r.meta &&
-              r.meta.role === userData.value.role.name &&
-              r.meta.defaultPage
-          ).path
-        );
-      }
+      //   if (
+      //     (to.meta.isSecure && to.meta.role !== userData.value.role.name) ||
+      //     (to.meta.auth && userData.value)
+      //   ) {
+      //     next(
+      //       router.options.routes.find(
+      //         (r) =>
+      //           r.meta &&
+      //           r.meta.role === userData.value.role.name &&
+      //           r.meta.defaultPage
+      //       ).path
+      //     );
+      //   }
+      // }
     }
     next();
   }

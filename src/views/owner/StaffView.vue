@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <!-- Left side bar -->
-    <res-owner-side-bar></res-owner-side-bar>
+        <ResOwnerSideBar />
 
     <!-- Main -->
     <v-main>
@@ -72,6 +72,7 @@
 </template>
 
 <script setup>
+import ResOwnerSideBar from "@/components/aside/ResOwnerSideBar";
 import { ref } from "vue";
 import { onMounted } from "vue";
 import { useUserStore } from "@/stores/user";

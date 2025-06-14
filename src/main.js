@@ -17,7 +17,6 @@ import SecondaryButton from "@/components/widget/button/SecondaryButton";
 import DangerButton from "@/components/widget/button/DangerButton";
 import DarkButton from "@/components/widget/button/DarkButton";
 import BaseAlert from "@/components/widget/alert/BaseAlert";
-import ResOwnerSideBar from "@/components/aside/ResOwnerSideBar";
 import HeaderComponent from "@/components/widget/header/HeaderComponent";
 import ProductListTable from "@/components/table/ProductListTable";
 import ProductForm from "@/components/form/ProductForm";
@@ -49,7 +48,6 @@ app.component("staff-card", StaffCard);
 app.component("chef-order-card", ChefOrderCard);
 
 // Sidebars
-app.component("res-owner-side-bar", ResOwnerSideBar);
 app.component("base-side-bar", BaseSideBar);
 app.component("header-component", HeaderComponent);
 app.component("summary-component", SummaryComponent);

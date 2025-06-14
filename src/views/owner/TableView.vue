@@ -1,7 +1,8 @@
 <template>
   <v-layout>
     <!-- Left side bar -->
-    <res-owner-side-bar></res-owner-side-bar>
+        <ResOwnerSideBar />
+        
     <v-main class="ml-2">
       <header-component :title="$t('app.crud.table.title')"> </header-component>
 
@@ -92,6 +93,7 @@
 </template>
 
 <script setup>
+import ResOwnerSideBar from "@/components/aside/ResOwnerSideBar";
 import { onMounted, ref, getCurrentInstance } from "vue";
 import { useTableStore } from "@/stores/table";
 import { storeToRefs } from "pinia";

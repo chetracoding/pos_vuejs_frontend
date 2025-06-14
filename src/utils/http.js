@@ -13,7 +13,7 @@ http.interceptors.request.use((config) => {
   const { getCookie } = useCookieStore();
   const { isLoading } = storeToRefs(useLoadingStore());
   isLoading.value = true;
-  const token = getCookie("user_token");
+  const token = getCookie("token");
   if (token) {
     config.headers["x-access-token"] = token;
   }
@@ -32,8 +32,8 @@ http.interceptors.response.use(
     const { isLoading } = storeToRefs(useLoadingStore());
     isLoading.value = false;
 
-    if (error.request.status === 401) {
-      removeCookie("user_token");
+    if ([401, 403].includes(error.request.status)) {
+      removeCookie("token");
       removeCookie("user_role");
       removeCookie("user");
       router.push("/login");

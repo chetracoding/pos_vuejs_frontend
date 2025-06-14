@@ -47,6 +47,7 @@ import useVuelidate from "@vuelidate/core";
 import { required, email, helpers } from "@vuelidate/validators";
 import { storeToRefs } from "pinia";
 import { t } from "../plugins/i18n";
+import { ROLE_NAME } from "@/constants/index.js";
 
 const instance = getCurrentInstance();
 const { user } = storeToRefs(useUserStore());
@@ -73,29 +74,41 @@ const rules = {
 const v$ = useVuelidate(rules, credentials);
 
 const onSubmit = async () => {
-  if (v$.value.$errors.length === 0) {
-    try {
-      const res = await http.post("auth/login", credentials);
-      cookieStore.setCookie("user_token", res.data.token, 30);
-      cookieStore.setCookie("user_role", res.data.user.role_id.name, 30);
-      user.value.data = res.data.user;
-      user.value.token = res.data.token;
-      if (res.data.user.role_id.name === "restaurant_owner") {
-        router.push("/");
-      } else {
-        router.push(`/${res.data.user.role_id.name}`);
-      }
-    } catch (err) {
-      if (err.response.data.message) {
-        instance.root.$notif(t("app.rules.loginFail"), { type: "error" });
-        // errMessage.value = t("app.rules.loginFail");
-      }
+  if (v$.value.$errors.length) return;
+
+
+  try {
+    const res = await http.post("auth/login", credentials);
+    const { token, data } = res.data
+    const { user: userData, role, permissions } = data
+
+    cookieStore.setCookie("token", token, 30);
+    cookieStore.setCookie("user", userData, 30);
+    cookieStore.setCookie("role", role, 30);
+    cookieStore.setCookie("permissions", permissions, 30);
+    user.value.data = userData;
+    user.value.token = token;
+    user.value.role = role;
+    user.value.permissions = permissions;
+
+    const defaultRoute = {
+      [ROLE_NAME.SUPER_ADMIN]: 'HomeView',
+      [ROLE_NAME.ADMIN]: 'HomeView',
+      [ROLE_NAME.CASHIER]: 'OrdersView',
+      [ROLE_NAME.CHEF]: 'ChefView',
+      [ROLE_NAME.WAITER]: 'WaiterView',
+    }
+
+    router.push({ name: defaultRoute[role.name] });
+  } catch (err) {
+    if (err.response.data.message) {
+      instance.root.$notif(t("app.rules.loginFail"), { type: "error" });
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 .font-inter {
   font-family: "Inter", "Noto Serif Khmer", sans-serif, serif !important;
 }

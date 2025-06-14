@@ -1,19 +1,12 @@
 <template>
   <!-- Order view -->
   <v-layout>
-    <base-side-bar :menus="menus"></base-side-bar>
+    <ResOwnerSideBar />
+
     <!-- Header -->
     <header-component title="Manage order">
-      <v-text-field
-        v-model="keyword"
-        class="text-white rounded-lg search"
-        density="compact"
-        variant="solo"
-        label="Search for order..."
-        append-inner-icon="mdi-magnify"
-        single-line
-        hide-details
-      ></v-text-field>
+      <v-text-field v-model="keyword" class="text-white rounded-lg search" density="compact" variant="solo"
+        label="Search for order..." append-inner-icon="mdi-magnify" single-line hide-details></v-text-field>
     </header-component>
     <!------>
 
@@ -27,9 +20,7 @@
       <!-- Product Summary -->
       <summary-component class="mt-2" title="Order Summary">
         <template v-slot:content>
-          <div
-            class="bg-grey-darken-2 mt-4 py-3 rounded-lg d-flex justify-space-between align-center"
-          >
+          <div class="bg-grey-darken-2 mt-4 py-3 rounded-lg d-flex justify-space-between align-center">
             <span class="ml-2">Total</span>
             <span class="mr-2">{{ orders.length }} items</span>
           </div>
@@ -46,6 +37,7 @@
 </template>
 
 <script setup>
+import ResOwnerSideBar from "@/components/aside/ResOwnerSideBar";
 import { useOrderStore } from "@/stores/order";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
@@ -58,13 +50,13 @@ defineProps(["title"]);
 const { getOrder } = useOrderStore();
 const { notPaidOrders, paidSuccess } = storeToRefs(useOrderStore());
 const keyword = ref("");
-const menus = ref([
-  {
-    link: "/cashier",
-    title: "Order",
-    icon: "mdi-storefront-plus",
-  },
-]);
+// const menus = ref([
+//   {
+//     link: "/cashier",
+//     title: "Order",
+//     icon: "mdi-storefront-plus",
+//   },
+// ]);
 
 const orders = computed(() => {
   if (!notPaidOrders.value.length === 0) return [];
