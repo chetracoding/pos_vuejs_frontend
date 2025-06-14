@@ -380,8 +380,9 @@ const storeCustom = (custIndex) => {
     if (custIndex !== null) {
       productInForm.value.product_customizes[custIndex].size =
         customize.value.size;
-      productInForm.value.product_customizes[custIndex].price =
-        customize.value.price;
+      productInForm.value.product_customizes[custIndex].price = Number(
+        customize.value.price
+      );
       clearCustomize();
       instance.root.$notif("Successful updated", { type: "success" });
     } else {
@@ -413,7 +414,9 @@ const deleteCustom = () => {
 const editCustom = (index) => {
   findCustIndex.value = index;
   customize.value.size = productInForm.value.product_customizes[index].size;
-  customize.value.price = productInForm.value.product_customizes[index].price;
+  customize.value.price = Number(
+    productInForm.value.product_customizes[index].price
+  );
 };
 
 // Save the product

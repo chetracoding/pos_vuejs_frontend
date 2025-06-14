@@ -39,13 +39,6 @@
                   {{ userData.email }}
                 </p>
                 <p
-                  class="text-left ml-5 font-inter cursor text-subtitle-1"
-                  @click="$router.push('/store')"
-                >
-                  <v-icon icon="mdi-store-cog" color="white" size="small"></v-icon>
-                  {{ $t("app.header.sitting.manageStore") }}
-                </p>
-                <p
                   class="text-left ml-5 font-inter cursor text-subtitle-1 mt-1"
                   @click="$router.push('/manage_account')"
                 >
@@ -54,9 +47,24 @@
                 </p>
                 <p
                   class="text-left ml-5 font-inter cursor text-subtitle-1"
+                  @click="$router.push('/store')"
+                >
+                  <v-icon
+                    icon="mdi-store-cog"
+                    color="white"
+                    size="small"
+                  ></v-icon>
+                  {{ $t("app.header.sitting.manageStore") }}
+                </p>
+                <p
+                  class="text-left ml-5 font-inter cursor text-subtitle-1"
                   @click="$router.push('/change_password')"
                 >
-                  <v-icon icon="mdi-shield-lock-outline" color="white" size="small"></v-icon>
+                  <v-icon
+                    icon="mdi-shield-lock-outline"
+                    color="white"
+                    size="small"
+                  ></v-icon>
                   {{ $t("app.header.sitting.password") }}
                 </p>
                 <v-divider class="my-3"></v-divider>
@@ -136,7 +144,7 @@ const logout = async () => {
 
 <style scoped>
 .font-inter {
-  font-family: "Inter", 'Noto Serif Khmer', sans-serif, serif !important;
+  font-family: "Inter", "Noto Serif Khmer", sans-serif, serif !important;
 }
 .profile {
   background: #2c2c2c;

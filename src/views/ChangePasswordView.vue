@@ -76,22 +76,11 @@
       </primary-button>
     </v-form>
   </div>
-
-  <!-- Alert success -->
-  <base-alert v-model="success" @hide-snackbar="success = false">
-    <v-icon class="mr-2 text-h4 mdi mdi-check-circle"></v-icon>
-    <h5 class="mt-2">Changed password successfully.</h5>
-  </base-alert>
-
-  <base-alert v-model="incorrectPwd" type="error" @hide-snackbar="incorrectPwd = false">
-    <v-icon class="mr-2 text-h4 mdi mdi-close-circle"></v-icon>
-    <h5 class="mt-2">Current password is incorrect!</h5>
-  </base-alert>
 </template>
 
 <script setup>
+import { reactive, ref, getCurrentInstance } from "vue";
 import http from "@/utils/http.js";
-import { reactive, ref } from "vue";
 import useVuelidate from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
 import { useUserStore } from "@/stores/user";
@@ -99,9 +88,9 @@ import { storeToRefs } from "pinia";
 import router from "@/router";
 
 // Variables
+const instance = getCurrentInstance();
 const { userData } = storeToRefs(useUserStore());
 const success = ref(false);
-const incorrectPwd = ref(false);
 const showCurrentPassword = ref(false);
 const showNewPassword = ref(false);
 const showConfirm = ref(false);
@@ -137,22 +126,23 @@ const change = async () => {
     };
     try {
       const res = await http.post("auth/change-pwd", changePassword);
+      instance.root.$notif("Successful updated", { type: "success" });
       if (res.data.success) {
         success.value = true;
-        setTimeout(() => {
-          router.push(
-            router.options.routes.find(
-              (r) =>
-                r.meta &&
-                r.meta.role === userData.value.role.name &&
-                r.meta.defaultPage
-            ).path
-          );
-        }, 4000);
+        router.push(
+          router.options.routes.find(
+            (r) =>
+              r.meta &&
+              r.meta.role === userData.value.role.name &&
+              r.meta.defaultPage
+          ).path
+        );
       }
     } catch (err) {
       if (err.response.status === 400) {
-        incorrectPwd.value = true;
+        instance.root.$notif("Your current password is incorrect", {
+          type: "error",
+        });
       }
     }
   }

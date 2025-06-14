@@ -16,7 +16,9 @@
         class="select-table ml-2 mb-2 rounded-lg text-white bg-grey-darken-2" hide-details="auto"
         :label="$t('waiter.selectTable')" @update:model-value="tableSelected"></v-select>
 
-      <header class="text-center text-white text-h5 font-weight-bold font-inter">
+      <header
+        class="text-center text-white text-h5 font-weight-bold font-inter"
+      >
         {{ $t("waiter.product") }}
       </header>
 
@@ -176,46 +178,25 @@
       {{ $t("app.btn.confirm") }}
     </primary-button>
   </base-dialog>
-
-  <!-- Alert please selecet table -->
-  <base-alert v-model="tableAlert" type="warning" @hide-snackbar="tableAlert = false">
-    <v-icon class="mr-2 text-h4 mdi mdi-alert-circle"></v-icon>
-    <h5 class="mt-2">{{ $t("waiter.alert.selectTable") }}</h5>
-  </base-alert>
-
-  <!-- Alert please selecet food -->
-  <base-alert v-model="foodAlert" type="warning" @hide-snackbar="foodAlert = false">
-    <v-icon class="mr-2 text-h4 mdi mdi-alert-circle"></v-icon>
-    <h5 class="mt-2">{{ $t("waiter.alert.selectFood") }}</h5>
-  </base-alert>
-
-  <!-- Alert success -->
-  <base-alert v-model="storeSuccess" @hide-snackbar="storeSuccess = false">
-    <v-icon class="mr-2 text-h4 mdi mdi-check-circle"></v-icon>
-    <h5 class="mt-2">{{ $t("waiter.alert.orderSuccess") }}</h5>
-  </base-alert>
 </template>
 
 <script setup>
-// Import
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, getCurrentInstance } from "vue";
 import { useProductStore } from "@/stores/product";
 import { useCategoryStore } from "@/stores/category";
-// import { useUserStore } from "@/stores/user";
 import { useRouter } from "vue-router";
 import { useTableStore } from "@/stores/table";
 import { storeToRefs } from "pinia";
-import { useOrderStore } from "@/stores/order";
+import { t } from "@/plugins/i18n.js";
 
 // Variables
+const instance = getCurrentInstance();
 const { getProducts } = useProductStore();
 const { getTables } = useTableStore();
 const { getCategory } = useCategoryStore();
-// const { userData } = storeToRefs(useUserStore());
 const { tables } = storeToRefs(useTableStore());
 const { products } = storeToRefs(useProductStore());
 const { categories } = storeToRefs(useCategoryStore());
-const { storeSuccess } = storeToRefs(useOrderStore());
 const router = useRouter();
 const keyword = ref("");
 const filterValue = ref(null);
@@ -228,9 +209,6 @@ const isCart = ref(false);
 const myCart = localStorage.getItem("customizes_selectd")
   ? ref(JSON.parse(localStorage.getItem("customizes_selectd")))
   : ref([]);
-
-const tableAlert = ref(false);
-const foodAlert = ref(false);
 
 const table = localStorage.getItem("table_selectd")
   ? ref(JSON.parse(localStorage.getItem("table_selectd")))
@@ -346,12 +324,18 @@ const tableSelected = () => {
 };
 // Order food
 const order = () => {
-  if (myCart.value.length === 0) {
-    return (foodAlert.value = true);
+  if (!myCart.value.length) {
+    return instance.root.$notif(t("waiter.alert.selectFood"), {
+      type: "error",
+    });
   }
+
   if (!table.value) {
-    return (tableAlert.value = true);
+    return instance.root.$notif(t("waiter.alert.selectTable"), {
+      type: "error",
+    });
   }
+
   router.push("/order-details");
 };
 

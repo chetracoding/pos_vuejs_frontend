@@ -20,7 +20,11 @@
 
           <!-- List orders card -->
           <div class="grid-container gap-2 mr-4" v-if="orders.length > 0">
-            <chef-order-card v-for="order in orders" :key="order._id" :order="order">
+            <chef-order-card
+              v-for="order in orders"
+              :key="order._id"
+              :order="order"
+            >
             </chef-order-card>
           </div>
           <!-- No order -->

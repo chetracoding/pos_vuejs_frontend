@@ -12,12 +12,18 @@
       <div class="mt-3" v-if="staff.length > 0">
         <staff-card v-for="sta in staff" :key="sta._id" :user="sta">
           <!--Edit button-->
-          <dark-button @click="onEdit(sta)" :disabled="user.data._id === sta._id">
+          <dark-button
+            @click="onEdit(sta)"
+            :disabled="user.data._id === sta._id"
+          >
             <v-icon icon="mdi-square-edit-outline"></v-icon>
             Edit
           </dark-button>
           <!--Delete button-->
-          <danger-button @click="onDelete(sta._id)" :disabled="user.data._id === sta._id">
+          <danger-button
+            @click="onDelete(sta._id)"
+            :disabled="user.data._id === sta._id"
+          >
             <v-icon icon="mdi-delete-forever"></v-icon>
             Delete
           </danger-button>
@@ -32,14 +38,22 @@
       <summary-component class="mt-2" title="Staff Summary">
         <template v-slot:btn>
           <secondary-button @click="isShowForm = true">
-            <v-icon icon="mdi-plus-box-multiple" color="white" size="large"></v-icon>
+            <v-icon
+              icon="mdi-plus-box-multiple"
+              color="white"
+              size="large"
+            ></v-icon>
             Add More
           </secondary-button>
         </template>
         <template v-slot:content>
-          <div class="bg-grey-darken-2 mt-3 py-3 rounded-lg d-flex justify-space-between align-center">
+          <div
+            class="bg-grey-darken-2 mt-3 py-3 rounded-lg d-flex justify-space-between align-center"
+          >
             <span class="ml-2">Total</span>
-            <span v-if="staff.length > 1" class="mr-2">{{ staff.length }} people</span>
+            <span v-if="staff.length > 1" class="mr-2"
+              >{{ staff.length }} people</span
+            >
             <span v-else class="mr-2">{{ staff.length }} person</span>
           </div>
         </template>
@@ -50,38 +64,43 @@
   <staff-form :isShowForm="isShowForm" @closeForm="closeForm" />
 
   <!-- Delete dialog -->
-  <base-dialog v-model="isDelete" title="Tips" ms="Are you sure you want to delete?">
+  <base-dialog
+    v-model="isDelete"
+    title="Tips"
+    ms="Are you sure you want to delete?"
+  >
     <danger-button @click="isDelete = false">
       <v-icon icon="mdi-close-box-multiple" color="white" size="large"></v-icon>
       Cancel
     </danger-button>
-    <primary-button @click="
-      deleteStaff(findStaffId);
-    isDelete = false;
-    ">
-      <v-icon icon="mdi-checkbox-multiple-marked" color="white" size="large"></v-icon>
+    <primary-button
+      @click="
+        deleted();
+        isDelete = false;
+      "
+    >
+      <v-icon
+        icon="mdi-checkbox-multiple-marked"
+        color="white"
+        size="large"
+      ></v-icon>
       Confirm
     </primary-button>
   </base-dialog>
-
-  <!--Alert delete success-->
-  <base-alert v-model="deleteSuccess" @hide-snackbar="deleteSuccess = false">
-    <v-icon class="mr-2 text-h4 mdi mdi-check-circle"></v-icon>
-    <h5 class="mt-2">Deleted staff successfully.</h5>
-  </base-alert>
 </template>
 
 <script setup>
 import ResOwnerSideBar from "@/components/aside/ResOwnerSideBar";
-import { ref } from "vue";
+import { ref, getCurrentInstance } from "vue";
 import { onMounted } from "vue";
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
 
 // Variable
+const instance = getCurrentInstance();
 const { getStaff, deleteStaff } = useUserStore();
 const { user } = storeToRefs(useUserStore());
-const { staff, staffInForm, deleteSuccess } = storeToRefs(useUserStore());
+const { staff, staffInForm } = storeToRefs(useUserStore());
 const isShowForm = ref(false);
 const isDelete = ref(false);
 const findStaffId = ref(null);
@@ -104,6 +123,10 @@ const onEdit = (staff) => {
 const onDelete = (user_id) => {
   findStaffId.value = user_id;
   isDelete.value = true;
+};
+const deleted = async () => {
+  await deleteStaff(findStaffId.value);
+  instance.root.$notif("Successful deleted", { type: "success" });
 };
 // Close staff form
 const closeForm = () => {
