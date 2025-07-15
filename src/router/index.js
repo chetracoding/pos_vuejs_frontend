@@ -1,131 +1,117 @@
-import { createRouter, createWebHistory } from "vue-router";
-import { loggedIn } from "@/common/auth/logged.js";
+import { createRouter, createWebHistory } from 'vue-router'
+import { loggedIn } from '@/common/auth/logged.js'
+import { authorized } from '@/common/auth/authorized.js'
+import { PERMISSION_NAME } from '@/constants/index.js'
+import authRoutes from './auth.js'
 
 const routes = [
+  ...authRoutes,
   {
-    path: "/login",
-    name: "Login",
-    meta: { auth: true },
-    component: () => import("@/views/LoginView"),
+    path: '/',
+    component: () => import('@/common/views/AppLayout.vue'),
+    children: [
+      {
+        path: '/home',
+        name: 'HomeView',
+        meta: { permission: PERMISSION_NAME.DASHBOARD },
+        component: () => import('@/views/admin/HomeView.vue'),
+      },
+      {
+        path: '/manage_account',
+        name: 'ManageAccountView',
+        component: () => import('@/views/ManageAccountView.vue'),
+      },
+      {
+        path: '/change_password',
+        name: 'ChangePasswordView',
+        component: () => import('@/views/ChangePasswordView.vue'),
+      },
+      {
+        path: '/store',
+        name: 'StoreView',
+        component: () => import('@/views/StoreView.vue'),
+      },
+      {
+        path: '/category',
+        name: 'CategoryView',
+        meta: { permission: PERMISSION_NAME.CATEGORY },
+        component: () => import('@/views/admin/CategoryView.vue'),
+      },
+      {
+        path: '/product',
+        name: 'ProductView',
+        meta: { permission: PERMISSION_NAME.PRODUCT },
+        component: () => import('@/views/admin/ProductView.vue'),
+      },
+      {
+        path: '/table',
+        name: 'TableView',
+        meta: { permission: PERMISSION_NAME.TABLE },
+        component: () => import('@/views/admin/TableView.vue'),
+      },
+      {
+        path: '/staff',
+        name: 'StaffView',
+        meta: { permission: PERMISSION_NAME.USER },
+        component: () => import('@/views/admin/StaffView.vue'),
+      },
+      {
+        path: '/money',
+        name: 'MoneyView',
+        meta: { permission: PERMISSION_NAME.MONEY },
+        component: () => import('@/views/admin/MoneyView.vue'),
+      },
+      {
+        path: '/sale',
+        name: '/ProductReportView',
+        meta: { permission: PERMISSION_NAME.SALE },
+        component: () => import('@/views/admin/ProductReportView.vue'),
+      },
+      {
+        path: '/waiter',
+        name: 'WaiterView',
+        meta: { permission: PERMISSION_NAME.ORDER },
+        component: () => import('@/views/waiter/WaiterView.vue'),
+      },
+      {
+        path: '/order-details',
+        name: 'OrderDetailsView',
+        meta: { permission: PERMISSION_NAME.ORDER },
+        component: () => import('@/views/waiter/OrderDetailsView.vue'),
+      },
+      {
+        path: '/chef',
+        name: 'ChefView',
+        meta: { permission: PERMISSION_NAME.COOK },
+        component: () => import('@/views/chef/ChefView.vue'),
+      },
+      {
+        path: '/cashier',
+        name: 'OrdersView',
+        meta: { permission: PERMISSION_NAME.RECIPT },
+        component: () => import('@/views/cashier/OrdersView.vue'),
+      },
+    ],
+    meta: { isSecure: true },
   },
   {
-    path: "/store",
-    name: "StoreView",
-    meta: { isSecure: true, auth: false },
-    component: () => import("@/views/StoreView"),
+    path: '/:pathMatch(.*)*',
+    name: '404',
+    component: () => import('@/common/views/PageNotFoundView.vue'),
   },
-  {
-    path: "/manage_account",
-    name: "ManageAccountView",
-    meta: { isSecure: true, auth: false },
-    component: () => import("@/views/ManageAccountView"),
-  },
-  {
-    path: "/change_password",
-    name: "ChangePasswordView",
-    meta: { isSecure: true, auth: false },
-    component: () => import("@/views/ChangePasswordView"),
-  },
-  {
-    path: "/recover_password",
-    name: "RecoverPasswordView",
-    meta: { auth: true },
-    component: () => import("@/views/RecoverPasswordView"),
-  },
-  {
-    path: "/reset_password/:token",
-    name: "ResetPasswordView",
-    component: () => import("@/views/ResetPasswordView"),
-    props: true,
-  },
-  {
-    path: "/:pathMatch(.*)*",
-    name: "404",
-    component: () => import("@/views/404/PageNotFoundView"),
-  },
-
-  // product owner ==============================================
-  {
-    path: "/",
-    name: "HomeView",
-    meta: { isSecure: true, defaultPage: true, role: "restaurant_owner" },
-    component: () => import("@/views/owner/HomeView"),
-  },
-  {
-    path: "/category",
-    name: "CategoryView",
-    meta: { isSecure: true, role: "restaurant_owner" },
-    component: () => import("@/views/owner/CategoryView"),
-  },
-  {
-    path: "/product",
-    name: "ProductView",
-    meta: { isSecure: true, role: "restaurant_owner" },
-    component: () => import("@/views/owner/ProductView"),
-  },
-  {
-    path: "/table",
-    name: "TableView",
-    meta: { isSecure: true, role: "restaurant_owner" },
-    component: () => import("@/views/owner/TableView"),
-  },
-  {
-    path: "/staff",
-    name: "StaffView",
-    meta: { isSecure: true, role: "restaurant_owner" },
-    component: () => import("@/views/owner/StaffView"),
-  },
-  {
-    path: "/money",
-    name: "MoneyView",
-    meta: { isSecure: true, role: "restaurant_owner" },
-    component: () => import("@/views/owner/MoneyView"),
-  },
-  {
-    path: "/sale",
-    name: "/ProductReportView",
-    meta: { isSecure: true, role: "restaurant_owner" },
-    component: () => import("@/views/owner/ProductReportView"),
-  },
-
-  // waiter =====================================================
-  {
-    path: "/waiter",
-    name: "WaiterView",
-    meta: { isSecure: true, defaultPage: true, role: "waiter" },
-    component: () => import("@/views/waiter/WaiterView"),
-  },
-  {
-    path: "/order-details",
-    name: "OrderDetailsView",
-    meta: { isSecure: true, role: "waiter" },
-    component: () => import("@/views/waiter/OrderDetailsView"),
-  },
-
-  // Chef =======================================================
-  {
-    path: "/chef",
-    name: "ChefView",
-    meta: { isSecure: true, defaultPage: true, role: "chef" },
-    component: () => import("@/views/chef/ChefView"),
-  },
-
-  // Cashier =======================================================
-  {
-    path: "/cashier",
-    name: "OrdersView",
-    meta: { isSecure: true, defaultPage: true, role: "cashier" },
-    component: () => import("@/views/cashier/OrdersView"),
-  },
-];
+]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-});
+})
 
 router.beforeEach(async (to, from, next) => {
-  await loggedIn(to, from, next, router);
-});
+  const { redirectLogin } = await loggedIn(to, next)
 
-export default router;
+  if (!redirectLogin) {
+    authorized(to, next, router)
+  }
+})
+
+export default router

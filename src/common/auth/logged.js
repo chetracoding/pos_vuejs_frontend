@@ -1,47 +1,39 @@
-import { useCookieStore } from "@/stores/cookie";
-import { useUserStore } from "@/stores/user";
-import { storeToRefs } from "pinia";
+import { storeToRefs } from 'pinia'
+import { useCookieStore } from '@/stores/cookie'
+import { useUserStore } from '@/stores/user'
 
 export async function isUserLogin() {
-  const { user } = storeToRefs(useUserStore());
-  let isLogin = false;
-  let isRefresh = false;
-  const { getCookie } = useCookieStore();
-  const token = getCookie("token");
-  if (!token) return { login: isLogin };
+  const { user } = storeToRefs(useUserStore())
+  let isLogin = false
+  let isRefresh = false
+  const { getCookie } = useCookieStore()
+  const token = getCookie('token')
+  if (!token) return { login: isLogin }
   if (token && !user.value.token) {
-    user.value.token = token;
-    isRefresh = true;
+    user.value.token = token
+    isRefresh = true
   }
-  isLogin = true;
-  return { login: isLogin, isRefresh };
+  isLogin = true
+  return { login: isLogin, isRefresh }
 }
 
-export const loggedIn = async (to, from, next, router) => {
-  const { getUser } = useUserStore();
-  // const { userData } = storeToRefs(useUserStore());
-  const isLogin = await isUserLogin();
+export const loggedIn = async (to, next) => {
+  const { getUser } = useUserStore()
+  const { login, isRefresh } = await isUserLogin()
 
-  if (!isLogin.login && to.meta.isSecure) {
-    router.push({ name: "Login" });
+  if (!login && to.matched[0].meta.isSecure) {
+    next({ name: 'Login' })
+
+    return { redirectLogin: true }
+  } else if (login && to.meta.auth) {
+    next({ name: 'HomeView' })
+
+    return { redirectLogin: true }
   } else {
-    if (isLogin.login && isLogin.isRefresh) {
-      await getUser();
-      //   if (
-      //     (to.meta.isSecure && to.meta.role !== userData.value.role.name) ||
-      //     (to.meta.auth && userData.value)
-      //   ) {
-      //     next(
-      //       router.options.routes.find(
-      //         (r) =>
-      //           r.meta &&
-      //           r.meta.role === userData.value.role.name &&
-      //           r.meta.defaultPage
-      //       ).path
-      //     );
-      //   }
-      // }
+    if (login && isRefresh) {
+      await getUser()
     }
-    next();
+
+    return { redirectLogin: false }
   }
-};
+}

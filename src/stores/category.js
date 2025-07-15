@@ -1,68 +1,58 @@
-import { defineStore } from "pinia";
-import http from "@/utils/http.js";
+import { defineStore } from 'pinia'
+import http from '@/utils/http.js'
 
 const initialsCategory = {
-  name: "",
-};
-export const useCategoryStore = defineStore("category", {
+  name: '',
+}
+
+export const useCategoryStore = defineStore('category', {
   state: () => {
     return {
       categoryInForm: { ...initialsCategory },
       deleteSuccess: false,
       updateSuccess: false,
       createSuccess: false,
-      errMessage: "",
+      errMessage: '',
       categories: [],
-    };
+    }
   },
   actions: {
     clearForm() {
-      this.categoryInForm = { ...initialsCategory };
+      this.categoryInForm = { ...initialsCategory }
     },
-    async getCategory() {
-      try {
-        const res = await http.get("categories");
-        if (res.data.success) {
-          this.categories = res.data.data;
-        }
-      } catch (err) {
-        return err;
-      }
+    async getCategory(params) {
+      const { data } = await http.get('categories', { params })
+      this.categories = data.data.rows
+
+      return data.data
     },
     async storeCategory(category) {
       try {
-        const res = await http.post("categories", category);
+        const res = await http.post('categories', category)
         if (res.data.success) {
-          this.getCategory();
+          this.getCategory()
         }
       } catch (err) {
         if (err.response.data.message) {
-          this.errMessage = err.response.data.message;
+          this.errMessage = err.response.data.message
         }
       }
     },
-    async deleteCategory(id) {
-      try {
-        const res = await http.delete(`categories/${id}`);
-        if (res.data.success) {
-          this.categories = this.categories.filter((r) => r._id !== id);
-        }
-      } catch (err) {
-        return err;
-      }
+    async deleteCategoryById(id) {
+      http.delete(`categories/${id}`)
     },
     async updateCategory(category) {
       try {
         const res = await http.put(
           `categories/${category.category_id}`,
           category
-        );
+        )
         if (res.data.success) {
-          this.getCategory();
+          this.getCategory()
         }
       } catch (err) {
         if (err.response.data.message) {
-          this.errMessage = err.response.data.message;
+          this.errMessage = err.response.data.message
         }
       }
     },
@@ -78,4 +68,4 @@ export const useCategoryStore = defineStore("category", {
     //   }
     // }
   },
-});
+})

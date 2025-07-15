@@ -1,7 +1,7 @@
 <template>
-  <v-app-bar class="bg-white" :elevation="0">
+  <v-card class="bg-white mb-2" height="8vh" rounded="4">
     <div
-      :class="`w-100 px-3 py-2 d-flex align-center justify-space-between ${props.class}`"
+      :class="`h-100 w-100 pa-3 d-flex align-center justify-space-between ${props.class}`"
     >
       <span>{{ props.title }}</span>
       <div class="w-50">
@@ -10,15 +10,15 @@
       <div>
         <v-menu rounded>
           <template v-slot:activator="{ props }">
-            <v-btn icon v-bind="props">
-              <v-avatar class="profile" size="large">
+            <v-btn icon v-bind="props" color="primary" size="small">
+              <v-avatar class="profile" color="primary">
                 <v-img
                   v-if="userData.image"
                   :src="userData.image"
                   :alt="userData.first_name"
                   cover
                 ></v-img>
-                <span v-else class="text-h5 text-white">{{ initials }}</span>
+                <span v-else class="text-white">{{ initials }}</span>
               </v-avatar>
             </v-btn>
           </template>
@@ -84,7 +84,7 @@
         </v-menu>
       </div>
     </div>
-  </v-app-bar>
+  </v-card>
 
   <base-dialog
     v-model="isLogout"

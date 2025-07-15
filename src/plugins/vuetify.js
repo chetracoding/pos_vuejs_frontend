@@ -1,32 +1,43 @@
 // Styles
-import "@mdi/font/css/materialdesignicons.css";
-import "vuetify/styles";
-import "@/sass/variables.scss";
+import '@mdi/font/css/materialdesignicons.css'
+import 'vuetify/styles'
+import '@/sass/variables.scss'
 
 // Vuetify
-import { createVuetify } from "vuetify";
+import { createVuetify } from 'vuetify'
+import { createRulesPlugin } from 'vuetify/labs/rules'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+import { VIconBtn } from 'vuetify/labs/VIconBtn'
 
 const customTheme = {
   dark: false,
   colors: {
-    primary: "#FF5252",
-    secondary: "#E468A2",
-    success: "#4CAF50",
-    info: "#02BDFE",
-    warning: "#FCBE01",
-    error: "#D32F2F",
-    surface: "#FFFFFF",
+    primary: '#008556',
+    secondary: '#F93549',
+    success: '#4CAF50',
+    info: '#02BDFE',
+    warning: '#FCBE01',
+    error: '#D32F2F',
+    surface: '#FFFFFF',
   },
-};
+}
 
-export default createVuetify({
+export const vuetify = createVuetify({
+  components: {
+    VIconBtn,
+    ...components,
+  },
+  directives,
   theme: {
     options: {
       customProperties: true,
     },
-    defaultTheme: "customTheme",
+    defaultTheme: 'customTheme',
     themes: {
       customTheme,
     },
   },
-});
+})
+
+export const rulesPlugin = createRulesPlugin({}, vuetify.locale)
