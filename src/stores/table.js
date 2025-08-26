@@ -1,71 +1,71 @@
-import { defineStore } from "pinia";
-import http from "@/utils/http.js";
+import { defineStore } from 'pinia'
+import http from '@/utils/http.js'
 
 const initialsTable = {
-  table_number: "",
-};
+  table_number: '',
+}
 
-export const useTableStore = defineStore("table", {
+export const useTableStore = defineStore('table', {
   state: () => {
     return {
       tableInForm: { ...initialsTable },
       deleteSuccess: false,
       updateSuccess: false,
       createSuccess: false,
-      errMessage: "",
+      errMessage: '',
       tables: [],
-    };
+    }
   },
   actions: {
-    clearForm() {
-      this.tableInForm = { ...initialsTable };
+    clearForm () {
+      this.tableInForm = { ...initialsTable }
     },
-    async getTables() {
+    async getTables () {
       try {
-        const res = await http.get("tables");
+        const res = await http.get('tables')
         if (res.data.success) {
-          this.tables = res.data.data;
+          this.tables = res.data.data
         }
-      } catch (err) {
-        return err;
+      } catch (error) {
+        return error
       }
     },
-    async storeTable(table) {
+    async storeTable (table) {
       try {
-        const res = await http.post("tables", table);
+        const res = await http.post('tables', table)
         if (res.data.success) {
-          this.createSuccess = true;
-          this.getTables();
+          this.createSuccess = true
+          this.getTables()
         }
-      } catch (err) {
-        if (err.response.data.message) {
-          this.errMessage = err.response.data.message.table;
+      } catch (error) {
+        if (error.response.data.message) {
+          this.errMessage = error.response.data.message.table
         }
       }
     },
-    async deleteTable(id) {
+    async deleteTable (id) {
       try {
-        const res = await http.delete(`tables/${id}`);
+        const res = await http.delete(`tables/${id}`)
         if (res.data.success) {
-          this.tables = this.tables.filter((r) => r._id !== id);
-          this.deleteSuccess = true;
+          this.tables = this.tables.filter(r => r._id !== id)
+          this.deleteSuccess = true
         }
-      } catch (err) {
-        return err;
+      } catch (error) {
+        return error
       }
     },
-    async updateTable(table) {
+    async updateTable (table) {
       try {
-        const res = await http.put(`tables/${table.table_id}`, table);
+        const res = await http.put(`tables/${table.table_id}`, table)
         if (res.data.success) {
-          this.updateSuccess = true;
-          this.getTables();
+          this.updateSuccess = true
+          this.getTables()
         }
-      } catch (err) {
-        if (err.response.data.message) {
-          this.errMessage = err.response.data.message.table;
+      } catch (error) {
+        if (error.response.data.message) {
+          this.errMessage = error.response.data.message.table
         }
       }
     },
   },
-});
+})

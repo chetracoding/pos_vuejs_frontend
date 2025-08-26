@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { loggedIn } from '@/common/auth/logged.js'
 import { authorized } from '@/common/auth/authorized.js'
+import { loggedIn } from '@/common/auth/logged.js'
 import { PERMISSION_NAME } from '@/constants/index.js'
 import authRoutes from './auth.js'
 

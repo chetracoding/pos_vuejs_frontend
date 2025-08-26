@@ -1,20 +1,20 @@
 <template>
   <BaseHeader :title="$t('app.crud.table.title')" />
 
-  <div class="grid-container gap-2" v-if="tables.length > 0">
+  <div v-if="tables.length > 0" class="grid-container gap-2">
     <table-card v-for="table in tables" :key="table._id" :table="table">
       <div class="d-flex justify-space-between align-center mt-2">
         <!-- close dialo delete table -->
         <dark-button @click="onEdit(table)">
           <v-icon
-            icon="mdi-square-edit-outline"
             color="white"
+            icon="mdi-square-edit-outline"
             size="large"
-          ></v-icon>
+          />
           Edit
         </dark-button>
         <danger-button @click="onDelete(table._id)">
-          <v-icon icon="mdi-delete-forever" color="white" size="large"></v-icon>
+          <v-icon color="white" icon="mdi-delete-forever" size="large" />
           Delete
         </danger-button>
       </div>
@@ -22,7 +22,7 @@
   </div>
 
   <!-- list table empty -->
-  <div class="w-100" v-else>
+  <div v-else class="w-100">
     <h4 class="text-center mt-5 text-white">No table available.</h4>
   </div>
 
@@ -52,32 +52,30 @@
 
   <base-dialog
     v-model="dialog"
-    title="Tips"
     ms="Are you sure you want to delete?"
+    title="Tips"
   >
-    <danger-button @click="dialog = false" class="justify-end">
-      <v-icon icon="mdi-close-box-multiple" color="white" size="large"></v-icon>
+    <danger-button class="justify-end" @click="dialog = false">
+      <v-icon color="white" icon="mdi-close-box-multiple" size="large" />
       Cancel
     </danger-button>
     <primary-button @click="deleted">
       <v-icon
-        icon="mdi-checkbox-multiple-marked"
         color="white"
+        icon="mdi-checkbox-multiple-marked"
         size="large"
-      ></v-icon>
+      />
       Confirm
     </primary-button>
   </base-dialog>
 
   <!-- form create table -->
-  <table-form :isShowForm="isShowForm" @closeForm="closeForm" />
+  <table-form :is-show-form="isShowForm" @close-form="closeForm" />
 </template>
 
 <script setup>
   import BaseHeader from '@/components/BaseHeader.vue'
-  import { onMounted, ref, getCurrentInstance } from 'vue'
   import { useTableStore } from '@/stores/table'
-  import { storeToRefs } from 'pinia'
 
   // Variables
   const instance = getCurrentInstance()
@@ -88,7 +86,7 @@
   const dialog = ref(false)
 
   // methods
-  const onDelete = (id) => {
+  const onDelete = id => {
     tableId.value = id
     dialog.value = true
   }
@@ -101,7 +99,7 @@
     dialog.value = false
   }
 
-  const onEdit = (table) => {
+  const onEdit = table => {
     const { _id, table_number } = table
     tableInForm.value = { table_id: _id, table_number }
     isShowForm.value = true

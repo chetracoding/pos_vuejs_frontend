@@ -34,25 +34,25 @@
         </v-btn>
       </div>
 
-      <v-card v-if="isFilter" rounded="3" class="mb-2 pa-3">
+      <v-card v-if="isFilter" class="mb-2 pa-3" rounded="3">
         <v-row dense>
           <v-col cols="12" sm="6">
             <v-text-field
               v-model="filter.id"
+              density="comfortable"
+              hide-details="auto"
               label="Identifier"
               variant="outlined"
-              hide-details="auto"
-              density="comfortable"
               @update:model-value="search"
             />
           </v-col>
           <v-col cols="12" sm="6">
             <v-text-field
               v-model="filter.name"
+              density="comfortable"
+              hide-details="auto"
               label="Name"
               variant="outlined"
-              hide-details="auto"
-              density="comfortable"
               @update:model-value="search"
             />
           </v-col>
@@ -66,20 +66,20 @@
         :headers="headers"
         :items="categories"
         :items-length="totalCount"
-        :loading="loading"
         :items-per-page-options="[10, 20, 50, 100]"
+        :loading="loading"
         @update:options="search"
       >
         <template #[`item.actions`]="{ item }">
           <v-icon-btn
-            icon="mdi-pencil"
             color="warning"
+            icon="mdi-pencil"
             variant="text"
             @click="onEdit(item)"
           />
           <v-icon-btn
-            icon="mdi-delete"
             color="error"
+            icon="mdi-delete"
             variant="text"
             @click="onDelete(item._id)"
           />
@@ -89,21 +89,20 @@
   </div>
 
   <CategoryFormDialog
-    v-model="isShowDialog"
     v-if="isShowDialog"
+    v-model="isShowDialog"
     :form="editItem"
     @load="search"
   />
 </template>
 
 <script setup>
-  import BaseHeader from '@/components/BaseHeader.vue'
-  import DataTable from '@/components/DataTable.vue'
-  import CategoryFormDialog from '@/components/CategoryFormDialog.vue'
-  import { ref, getCurrentInstance } from 'vue'
-  import { useCategoryStore } from '@/stores/index.js'
-  import { storeToRefs } from 'pinia'
   import { format } from 'date-fns'
+  import { storeToRefs } from 'pinia'
+  import BaseHeader from '@/components/BaseHeader.vue'
+  import CategoryFormDialog from '@/components/CategoryFormDialog.vue'
+  import DataTable from '@/components/DataTable.vue'
+  import { useCategoryStore } from '@/stores/index.js'
 
   // data
   const instance = getCurrentInstance()
@@ -154,8 +153,8 @@
       limit: itemsPerPage,
       sort,
       filter: {
-        ...(filter.value.id &&
-          filter.value.id.length === 24 && { _id: filter.value.id }),
+        ...(filter.value.id
+          && filter.value.id.length === 24 && { _id: filter.value.id }),
         ...(filter.value.name && {
           name: { $regex: filter.value.name, $options: 'i' },
         }),
@@ -172,7 +171,7 @@
     }
     await search()
   }
-  const onDelete = async (id) => {
+  const onDelete = async id => {
     instance.root.$confirm({
       title: 'Confirm delete',
       msg: 'Are you sure to delete?',
@@ -187,7 +186,7 @@
     editItem.value = null
     isShowDialog.value = true
   }
-  const onEdit = (item) => {
+  const onEdit = item => {
     editItem.value = item
     isShowDialog.value = true
   }

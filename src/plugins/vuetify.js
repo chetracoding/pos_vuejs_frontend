@@ -1,14 +1,14 @@
+// Vuetify
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+
+import { createRulesPlugin } from 'vuetify/labs/rules'
+import { VIconBtn } from 'vuetify/labs/VIconBtn'
 // Styles
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 import '@/sass/variables.scss'
-
-// Vuetify
-import { createVuetify } from 'vuetify'
-import { createRulesPlugin } from 'vuetify/labs/rules'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
-import { VIconBtn } from 'vuetify/labs/VIconBtn'
 
 const customTheme = {
   dark: false,

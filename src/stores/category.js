@@ -17,34 +17,34 @@ export const useCategoryStore = defineStore('category', {
     }
   },
   actions: {
-    clearForm() {
+    clearForm () {
       this.categoryInForm = { ...initialsCategory }
     },
-    async getCategory(params) {
+    async getCategory (params) {
       const { data } = await http.get('categories', { params })
       this.categories = data.data.rows
 
       return data.data
     },
-    async createCategory(payload) {
+    async createCategory (payload) {
       http.post('categories', payload)
     },
-    async updateCategory(category) {
+    async updateCategory (category) {
       try {
         const res = await http.put(
           `categories/${category.category_id}`,
-          category
+          category,
         )
         if (res.data.success) {
           this.getCategory()
         }
-      } catch (err) {
-        if (err.response.data.message) {
-          this.errMessage = err.response.data.message
+      } catch (error) {
+        if (error.response.data.message) {
+          this.errMessage = error.response.data.message
         }
       }
     },
-    async deleteCategoryById(id) {
+    async deleteCategoryById (id) {
       http.delete(`categories/${id}`)
     },
     // async storeCategory(category) {

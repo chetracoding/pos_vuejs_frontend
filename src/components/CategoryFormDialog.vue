@@ -1,16 +1,16 @@
 <template>
-  <v-dialog :model-value="props.modelValue" max-width="600" persistent>
-    <v-card :title="title" rounded="4">
+  <v-dialog max-width="600" :model-value="props.modelValue" persistent>
+    <v-card rounded="4" :title="title">
       <v-card-text>
         <v-form ref="formRef">
           <v-row dense>
             <v-col cols="12">
               <v-text-field
                 v-model="form.name"
-                label="Name *"
-                variant="outlined"
                 density="comfortable"
+                label="Name *"
                 :rules="[FORM_RULES.required]"
+                variant="outlined"
               />
             </v-col>
           </v-row>
@@ -22,7 +22,7 @@
       <v-card-actions>
         <v-spacer />
 
-        <v-btn text="Close" color="error" variant="tonal" @click="close" />
+        <v-btn color="error" text="Close" variant="tonal" @click="close" />
 
         <v-btn
           class="text-none"
@@ -37,9 +37,8 @@
 </template>
 
 <script setup>
-  import { defineEmits, defineProps, ref } from 'vue'
-  import { FORM_RULES } from '@/validators/form-rules.js'
   import { useCategoryStore } from '@/stores/index.js'
+  import { FORM_RULES } from '@/validators/form-rules.js'
 
   const { createCategory } = useCategoryStore()
 

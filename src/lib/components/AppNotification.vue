@@ -3,11 +3,11 @@
     <v-slide-x-reverse-transition group>
       <v-alert
         v-for="notification of notifications"
-        class="mb-2"
-        v-bind:="notification.opts"
-        :text="notification.msg"
         :key="notification.id"
+        class="mb-2"
         closable
+        :text="notification.msg"
+        v-bind:="notification.opts"
         @click:close="close(notification.id)"
       />
     </v-slide-x-reverse-transition>
@@ -15,47 +15,47 @@
 </template>
 
 <script>
-import { ref } from "vue";
+  import { ref } from 'vue'
 
-export default {
-  setup() {
-    // data
-    const notifications = ref([]);
-
-    // methods
-    function pushNotif(msg, options) {
-      const id = new Date().valueOf() + Math.random();
-      const opts = {
-        timeout: 5000,
-        ...options,
-      };
-      notifications.value.push({
-        id,
-        msg,
-        opts,
-      });
-      if (opts.timeout) {
-        setTimeout(() => {
-          close(id);
-        }, opts.timeout);
-      }
-    }
-    function close(id) {
-      notifications.value = notifications.value.filter(
-        (item) => item.id !== id
-      );
-    }
-
-    return {
+  export default {
+    setup () {
       // data
-      notifications,
+      const notifications = ref([])
 
       // methods
-      pushNotif,
-      close,
-    };
-  },
-};
+      function pushNotif (msg, options) {
+        const id = Date.now() + Math.random()
+        const opts = {
+          timeout: 5000,
+          ...options,
+        }
+        notifications.value.push({
+          id,
+          msg,
+          opts,
+        })
+        if (opts.timeout) {
+          setTimeout(() => {
+            close(id)
+          }, opts.timeout)
+        }
+      }
+      function close (id) {
+        notifications.value = notifications.value.filter(
+          item => item.id !== id,
+        )
+      }
+
+      return {
+        // data
+        notifications,
+
+        // methods
+        pushNotif,
+        close,
+      }
+    },
+  }
 </script>
 
 <style scoped>

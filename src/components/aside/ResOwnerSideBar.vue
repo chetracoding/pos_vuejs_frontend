@@ -3,11 +3,10 @@
 </template>
 
 <script setup>
-  import { computed } from 'vue'
-  import { t } from '@/plugins/i18n'
-  import { useUserStore } from '@/stores/user'
   import { storeToRefs } from 'pinia'
   import { PERMISSION_NAME } from '@/constants/index.js'
+  import { t } from '@/plugins/i18n'
+  import { useUserStore } from '@/stores/user'
 
   // Variables
   const { user } = storeToRefs(useUserStore())
@@ -72,9 +71,9 @@
 
     return defaultMenus.filter(
       ({ permission }) =>
-        !!user.value.permissions.find(
-          (per) => per.permission.name == permission && per.read
-        )
+        !!user.value.permissions.some(
+          per => per.permission.name == permission && per.read,
+        ),
     )
   })
 </script>

@@ -2,13 +2,15 @@ import { storeToRefs } from 'pinia'
 import { useCookieStore } from '@/stores/cookie'
 import { useUserStore } from '@/stores/user'
 
-export async function isUserLogin() {
+export async function isUserLogin () {
   const { user } = storeToRefs(useUserStore())
   let isLogin = false
   let isRefresh = false
   const { getCookie } = useCookieStore()
   const token = getCookie('token')
-  if (!token) return { login: isLogin }
+  if (!token) {
+    return { login: isLogin }
+  }
   if (token && !user.value.token) {
     user.value.token = token
     isRefresh = true

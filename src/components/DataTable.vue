@@ -1,19 +1,18 @@
 <template>
-  <v-card rounded="4" height="100%">
+  <v-card height="100%" rounded="4">
     <v-data-table-server
       v-bind="$attrs"
       :headers="props.headers"
       :items="$attrs.items"
     >
       <template #[`item.actions`]="{ item }">
-        <slot name="item.actions" :item="item" />
+        <slot :item="item" name="item.actions" />
       </template>
     </v-data-table-server>
   </v-card>
 </template>
 
 <script setup>
-  import { defineProps } from 'vue'
   const props = defineProps({
     headers: {
       type: Array,

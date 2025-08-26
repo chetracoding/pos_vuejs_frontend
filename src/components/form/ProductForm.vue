@@ -5,126 +5,125 @@
         <v-card-title
           v-if="productInForm.product_id"
           class="bg-red-accent-2 text-center"
-          >Update product</v-card-title
-        >
-        <v-card-title v-else class="bg-red-accent-2 text-center"
-          >Create new product</v-card-title
-        >
+        >Update product</v-card-title>
+        <v-card-title
+          v-else
+          class="bg-red-accent-2 text-center"
+        >Create new product</v-card-title>
 
         <div class="w-100 px-2 pt-2 d-flex">
           <div class="w-30 mr-3">
             <v-text-field
               v-model="productInForm.name"
-              required
               class="mt-2 text-black"
-              variant="outlined"
               density="compact"
-              label="Name"
               :error-messages="vp$.name.$errors.map((e) => e.$message)"
-              @input="vp$.name.$touch"
+              label="Name"
+              required
+              variant="outlined"
               @blur="vp$.name.$touch"
-            ></v-text-field>
+              @input="vp$.name.$touch"
+            />
 
             <v-text-field
               v-model="productInForm.product_code"
-              required
               class="mt-2 text-black"
-              variant="outlined"
               density="compact"
-              label="Code"
               :error-messages="`${vp$.product_code.$errors.map(
                 (e) => e.$message
               )}${errProductCode}`"
+              label="Code"
+              required
+              variant="outlined"
+              @blur="vp$.product_code.$touch"
               @input="
                 vp$.product_code.$touch;
                 errProductCode = '';
               "
-              @blur="vp$.product_code.$touch"
-            ></v-text-field>
+            />
 
             <v-select
               v-model="productInForm.category_id"
-              required
               class="mt-2 text-black"
-              variant="outlined"
-              label="Category"
-              :items="categories"
-              :item-title="'name'"
-              :item-value="'_id'"
               density="compact"
               :error-messages="vp$.category_id.$errors.map((e) => e.$message)"
-              @change="vp$.category_id.$touch"
+              :item-title="'name'"
+              :item-value="'_id'"
+              :items="categories"
+              label="Category"
+              required
+              variant="outlined"
               @blur="vp$.category_id.$touch"
-            >
-            </v-select>
+              @change="vp$.category_id.$touch"
+            />
 
             <v-textarea
               v-model="productInForm.description"
-              required
               class="mt-2 text-black"
-              variant="outlined"
               cols="2"
               density="compact"
-              label="Description"
-              rows="1"
               :error-messages="vp$.description.$errors.map((e) => e.$message)"
-              @input="vp$.description.$touch"
+              label="Description"
+              required
+              rows="1"
+              variant="outlined"
               @blur="vp$.description.$touch"
-            ></v-textarea>
+              @input="vp$.description.$touch"
+            />
 
             <v-switch
               v-model="productInForm.is_active"
               class="text-black"
-              inset
-              variant="outlined"
-              required
               color="orange-darken-4"
-              label="Active"
               :error-messages="vp$.is_active.$errors.map((e) => e.$message)"
-              @change="vp$.is_active.$touch"
+              inset
+              label="Active"
+              required
+              variant="outlined"
               @blur="vp$.is_active.$touch"
-            ></v-switch>
+              @change="vp$.is_active.$touch"
+            />
           </div>
 
           <div class="w-30">
             <v-file-input
               ref="inputFile"
-              required
               accept="image/png, image/jpeg"
+              class="d-none"
               :clearable="false"
               density="compact"
               label="File input"
-              class="d-none"
-              variant="outlined"
               prepend-icon="mdi-file-image"
+              required
+              variant="outlined"
               @change="imageUpload($event)"
-            ></v-file-input>
+            />
 
             <v-tooltip v-model="showToolTip" location="center">
-              <template v-slot:activator="{ props }">
+              <template #activator="{ props }">
                 <v-img
                   v-bind="props"
-                  @click="uploadClicked"
+                  aspect-ratio="16/9"
+                  class="cursor mt-2 rounded-lg"
+                  cover
+                  :height="193"
                   :src="
                     productInForm.image
                       ? productInForm.image
                       : imgPreview
-                      ? imgPreview
-                      : require('../../assets/select_product.png')
+                        ? imgPreview
+                        : require('../../assets/select_product.png')
                   "
                   :width="238"
-                  :height="193"
-                  class="cursor mt-2 rounded-lg"
-                  aspect-ratio="16/9"
-                  cover
-                ></v-img>
+                  @click="uploadClicked"
+                />
               </template>
               <div class="d-flex flex-column py-2 align-center">
                 <v-icon
                   class="text-h4"
                   color="white"
                   icon="mdi-image-plus"
-                ></v-icon>
+                />
                 <span>Upload image</span>
               </div>
             </v-tooltip>
@@ -135,75 +134,75 @@
               <v-text-field
                 v-model="customize.size"
                 class="mt-2 text-black w-50"
-                variant="outlined"
                 density="compact"
-                label="Size"
                 :error-messages="vc$.size.$errors.map((e) => e.$message)"
-                @input="vc$.size.$touch"
+                label="Size"
+                variant="outlined"
                 @blur="vc$.size.$touch"
-              ></v-text-field>
+                @input="vc$.size.$touch"
+              />
 
               <v-text-field
                 v-model="customize.price"
                 class="mt-2 text-black w-50"
-                variant="outlined"
                 density="compact"
+                :error-messages="vc$.price.$errors.map((e) => e.$message)"
                 label="Price ($)"
                 type="number"
-                :error-messages="vc$.price.$errors.map((e) => e.$message)"
-                @input="vc$.price.$touch"
+                variant="outlined"
                 @blur="vc$.price.$touch"
-              ></v-text-field>
+                @input="vc$.price.$touch"
+              />
 
               <primary-button
+                class="mb-3"
                 @click="
                   vc$.$validate();
                   storeCustom(findCustIndex);
                 "
-                class="mb-3"
               >
                 <v-icon
-                  icon="mdi-content-save-all"
                   color="white"
+                  icon="mdi-content-save-all"
                   size="large"
-                ></v-icon>
+                />
                 Save
               </primary-button>
             </div>
 
             <div
-              v-for="(customize, index) in productInForm.product_customizes"
+              v-for="(customizeItem, index) in productInForm.product_customizes"
               :key="index"
               class="d-flex mt-2 p-2 rounded-lg justify-space-between align-center bg-grey-darken-1 mb-2"
               width="300px"
             >
               <div class="w-25">
-                <span>{{ customize.size }}</span>
+                <span>{{ customizeItem.size }}</span>
               </div>
               <div class="w-40">
-                <span>${{ Number(customize.price).toFixed(2) }}</span>
+                <span>${{ Number(customizeItem.price).toFixed(2) }}</span>
               </div>
               <div class="w-40 d-flex justify-end">
                 <dark-button @click="editCustom(index)">
                   <v-icon
-                    icon="mdi-square-edit-outline"
                     color="white"
+                    icon="mdi-square-edit-outline"
                     size="large"
-                  ></v-icon>
+                  />
                   Edit
                 </dark-button>
                 <danger-button
+                  class="ml-2"
                   @click="
                     isDelete = true;
                     deleteCustIndex = index;
                   "
-                  class="ml-2"
                 >
                   <v-icon
-                    icon="mdi-delete-forever"
                     color="white"
+                    icon="mdi-delete-forever"
                     size="large"
-                  ></v-icon>
+                  />
                   Delete
                 </danger-button>
               </div>
@@ -212,13 +211,13 @@
         </div>
 
         <v-card-actions class="bg-grey-lighten-2">
-          <v-spacer></v-spacer>
+          <v-spacer />
           <danger-button @click="clearPruduct()">
             <v-icon
-              icon="mdi-close-box-multiple"
               color="white"
+              icon="mdi-close-box-multiple"
               size="large"
-            ></v-icon>
+            />
             Close
           </danger-button>
           <primary-button
@@ -228,10 +227,10 @@
             "
           >
             <v-icon
-              icon="mdi-content-save-all"
               color="white"
+              icon="mdi-content-save-all"
               size="large"
-            ></v-icon>
+            />
             Save
           </primary-button>
         </v-card-actions>
@@ -241,19 +240,19 @@
 
   <base-dialog
     v-model="isDelete"
-    title="Tips"
     ms="Are you sure you want to delete?"
+    title="Tips"
   >
     <danger-button @click="isDelete = false">
-      <v-icon icon="mdi-close-box-multiple" color="white" size="large"></v-icon>
+      <v-icon color="white" icon="mdi-close-box-multiple" size="large" />
       Cancel
     </danger-button>
     <primary-button @click="deleteCustom">
       <v-icon
-        icon="mdi-checkbox-multiple-marked"
         color="white"
+        icon="mdi-checkbox-multiple-marked"
         size="large"
-      ></v-icon>
+      />
       Confirm
     </primary-button>
   </base-dialog>
@@ -261,201 +260,201 @@
   <!-- Uploading progress -->
   <uploading-progress
     v-model="showProgress"
-    :uploadValue="uploadValue"
-  ></uploading-progress>
+    :upload-value="uploadValue"
+  />
 </template>
 
 <script setup>
-import { ref, getCurrentInstance } from "vue";
-import http from "@/utils/http.js";
-import firebase from "firebase";
-import { useProductStore } from "@/stores/product";
-import { useCategoryStore } from "@/stores/category";
-import { storeToRefs } from "pinia";
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
+  import { useVuelidate } from '@vuelidate/core'
+  import { required } from '@vuelidate/validators'
+  import firebase from 'firebase'
+  import { storeToRefs } from 'pinia'
+  import { getCurrentInstance, ref } from 'vue'
+  import { useCategoryStore } from '@/stores/category'
+  import { useProductStore } from '@/stores/product'
+  import http from '@/utils/http.js'
 
-// Variables
-const { storeProduct, updateProduct, resetProductForm } = useProductStore();
-const { dialog, productInForm, errProductCode } = storeToRefs(
-  useProductStore()
-);
-const instance = getCurrentInstance();
-const { categories } = storeToRefs(useCategoryStore());
-const showToolTip = ref(false);
-const imgPreview = ref(null);
-const showProgress = ref(false);
-const uploadValue = ref(0);
-const inputFile = ref(null);
-const isDelete = ref(false);
-const deleteCustIndex = ref(null);
+  // Variables
+  const { storeProduct, updateProduct, resetProductForm } = useProductStore()
+  const { dialog, productInForm, errProductCode } = storeToRefs(
+    useProductStore(),
+  )
+  const instance = getCurrentInstance()
+  const { categories } = storeToRefs(useCategoryStore())
+  const showToolTip = ref(false)
+  const imgPreview = ref(null)
+  const showProgress = ref(false)
+  const uploadValue = ref(0)
+  const inputFile = ref(null)
+  const isDelete = ref(false)
+  const deleteCustIndex = ref(null)
 
-// Validation product
-const vp$ = useVuelidate(
-  {
-    name: { required },
-    product_code: { required },
-    category_id: { required },
-    description: { required },
-    is_active: { required },
-  },
-  productInForm
-);
-// Clear product form
-const clearPruduct = () => {
-  productInForm.value.product_customizes = [];
-  clearCustomize();
-  errProductCode.value = "";
-  imgPreview.value = null;
-  resetProductForm();
-  vp$.value.$reset();
-  dialog.value = false;
-};
-
-// Validation product customize
-const findCustIndex = ref(null);
-const initialCustomize = {
-  size: null,
-  price: null,
-};
-const customize = ref({
-  ...initialCustomize,
-});
-const vc$ = useVuelidate(
-  {
-    size: { required },
-    price: { required },
-  },
-  customize
-);
-
-// Clear product customize form
-const clearCustomize = () => {
-  vc$.value.$reset();
-  for (const [key, value] of Object.entries(initialCustomize)) {
-    customize.value[key] = value;
+  // Validation product
+  const vp$ = useVuelidate(
+    {
+      name: { required },
+      product_code: { required },
+      category_id: { required },
+      description: { required },
+      is_active: { required },
+    },
+    productInForm,
+  )
+  // Clear product form
+  const clearPruduct = () => {
+    productInForm.value.product_customizes = []
+    clearCustomize()
+    errProductCode.value = ''
+    imgPreview.value = null
+    resetProductForm()
+    vp$.value.$reset()
+    dialog.value = false
   }
-};
 
-// Method
-// Clicked upload image
-const uploadClicked = () => {
-  inputFile.value.click();
-};
-
-// When upload image
-const imageUpload = (e) => {
-  uploadValue.value = 0;
-  showProgress.value = true;
-  const file = e.target.files[0];
-  if (file) {
-    // Upload image to firebase storage
-    const storageRef = firebase.storage().ref(`${file.name}`).put(file);
-    storageRef.on(
-      `state_changed`,
-      (snapshot) => {
-        uploadValue.value = parseInt(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-      },
-      (error) => {
-        console.log(error.message);
-      },
-      () => {
-        storageRef.snapshot.ref.getDownloadURL().then((url) => {
-          showProgress.value = false;
-          uploadValue.value = 100;
-          productInForm.value.image = url;
-          imgPreview.value = url;
-        });
-      }
-    );
+  // Validation product customize
+  const findCustIndex = ref(null)
+  const initialCustomize = {
+    size: null,
+    price: null,
   }
-};
+  const customize = ref({
+    ...initialCustomize,
+  })
+  const vc$ = useVuelidate(
+    {
+      size: { required },
+      price: { required },
+    },
+    customize,
+  )
 
-// Add product customize
-const storeCustom = (custIndex) => {
-  if (vc$.value.$errors.length === 0) {
-    // Update customize
-    if (custIndex !== null) {
-      productInForm.value.product_customizes[custIndex].size =
-        customize.value.size;
-      productInForm.value.product_customizes[custIndex].price = Number(
-        customize.value.price
-      );
-      clearCustomize();
-      instance.root.$notif("Successful updated", { type: "success" });
-    } else {
-      // Create customize
-      productInForm.value.product_customizes.push({ ...customize.value });
-      clearCustomize();
-      instance.root.$notif("Successful created", { type: "success" });
-    }
-    findCustIndex.value = null;
-  }
-};
-// Delete product customize
-const deleteCustom = () => {
-  let productCustomizeId =
-    productInForm.value.product_customizes[deleteCustIndex.value]
-      .product_customize_id;
-  if (productCustomizeId) {
-    try {
-      http.delete(`product_customizes/${productCustomizeId}`);
-    } catch (err) {
-      console.log(err);
+  // Clear product customize form
+  const clearCustomize = () => {
+    vc$.value.$reset()
+    for (const [key, value] of Object.entries(initialCustomize)) {
+      customize.value[key] = value
     }
   }
-  productInForm.value.product_customizes.splice(deleteCustIndex.value, 1);
-  isDelete.value = false;
-  instance.root.$notif("Successful deleted", { type: "success" });
-};
-// Edit product customize
-const editCustom = (index) => {
-  findCustIndex.value = index;
-  customize.value.size = productInForm.value.product_customizes[index].size;
-  customize.value.price = Number(
-    productInForm.value.product_customizes[index].price
-  );
-};
 
-// Save the product
-const save = async () => {
-  // Check customize
-  if (productInForm.value.product_customizes.length === 0) {
-    vc$.value.$touch();
-    instance.root.$notif("Please add a size", {
-      type: "error",
-    });
+  // Method
+  // Clicked upload image
+  const uploadClicked = () => {
+    inputFile.value.click()
   }
-  if (
-    vp$.value.$errors.length === 0 &&
-    productInForm.value.product_customizes.length > 0
-  ) {
-    if (!productInForm.value.image) {
-      instance.root.$notif("Please upload image to continue", {
-        type: "error",
-      });
-    } else {
-      // Check the product id
-      if (productInForm.value.product_id) {
-        // Update the product
-        await updateProduct(productInForm.value);
-        instance.root.$notif("Successful updated", { type: "success" });
+
+  // When upload image
+  const imageUpload = e => {
+    uploadValue.value = 0
+    showProgress.value = true
+    const file = e.target.files[0]
+    if (file) {
+      // Upload image to firebase storage
+      const storageRef = firebase.storage().ref(`${file.name}`).put(file)
+      storageRef.on(
+        `state_changed`,
+        snapshot => {
+          uploadValue.value = Number.parseInt(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
+          )
+        },
+        error => {
+          console.log(error.message)
+        },
+        () => {
+          storageRef.snapshot.ref.getDownloadURL().then(url => {
+            showProgress.value = false
+            uploadValue.value = 100
+            productInForm.value.image = url
+            imgPreview.value = url
+          })
+        },
+      )
+    }
+  }
+
+  // Add product customize
+  const storeCustom = custIndex => {
+    if (vc$.value.$errors.length === 0) {
+      // Update customize
+      if (custIndex === null) {
+        // Create customize
+        productInForm.value.product_customizes.push({ ...customize.value })
+        clearCustomize()
+        instance.root.$notif('Successful created', { type: 'success' })
       } else {
-        // Create a new product
-        await storeProduct(productInForm.value);
-        instance.root.$notif("Successful created", { type: "success" });
+        productInForm.value.product_customizes[custIndex].size
+          = customize.value.size
+        productInForm.value.product_customizes[custIndex].price = Number(
+          customize.value.price,
+        )
+        clearCustomize()
+        instance.root.$notif('Successful updated', { type: 'success' })
       }
-      // Check the product code message
-      if (!errProductCode.value) {
-        dialog.value = false;
-        clearCustomize();
-        clearPruduct();
+      findCustIndex.value = null
+    }
+  }
+  // Delete product customize
+  const deleteCustom = () => {
+    const productCustomizeId
+      = productInForm.value.product_customizes[deleteCustIndex.value]
+        .product_customize_id
+    if (productCustomizeId) {
+      try {
+        http.delete(`product_customizes/${productCustomizeId}`)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    productInForm.value.product_customizes.splice(deleteCustIndex.value, 1)
+    isDelete.value = false
+    instance.root.$notif('Successful deleted', { type: 'success' })
+  }
+  // Edit product customize
+  const editCustom = index => {
+    findCustIndex.value = index
+    customize.value.size = productInForm.value.product_customizes[index].size
+    customize.value.price = Number(
+      productInForm.value.product_customizes[index].price,
+    )
+  }
+
+  // Save the product
+  const save = async () => {
+    // Check customize
+    if (productInForm.value.product_customizes.length === 0) {
+      vc$.value.$touch()
+      instance.root.$notif('Please add a size', {
+        type: 'error',
+      })
+    }
+    if (
+      vp$.value.$errors.length === 0
+      && productInForm.value.product_customizes.length > 0
+    ) {
+      if (productInForm.value.image) {
+        // Check the product id
+        if (productInForm.value.product_id) {
+          // Update the product
+          await updateProduct(productInForm.value)
+          instance.root.$notif('Successful updated', { type: 'success' })
+        } else {
+          // Create a new product
+          await storeProduct(productInForm.value)
+          instance.root.$notif('Successful created', { type: 'success' })
+        }
+        // Check the product code message
+        if (!errProductCode.value) {
+          dialog.value = false
+          clearCustomize()
+          clearPruduct()
+        }
+      } else {
+        instance.root.$notif('Please upload image to continue', {
+          type: 'error',
+        })
       }
     }
   }
-};
 </script>
 
 <style scoped>

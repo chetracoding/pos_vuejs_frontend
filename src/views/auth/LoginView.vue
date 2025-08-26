@@ -10,15 +10,15 @@
         <div class="mt-4">
           <v-text-field
             v-model="credentials.email"
-            name="username"
+            autocomplete="username"
             class="text-black placeholer-capitalize"
             density="compact"
+            name="username"
             :placeholder="$t('app.auth.email')"
-            type="email"
             prepend-inner-icon="mdi-email-outline"
-            variant="outlined"
-            autocomplete="username"
             :rules="rules.email"
+            type="email"
+            variant="outlined"
           />
         </div>
 
@@ -28,35 +28,34 @@
               class="cursor text-primary"
               @click="$router.push({ name: 'ForgotPasswordView' })"
             >
-              {{ $t('app.auth.forgot.forgot') }}</span
-            >
+              {{ $t('app.auth.forgot.forgot') }}</span>
           </div>
           <v-text-field
             v-model="credentials.password"
-            name="password"
-            class="text-black"
             :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-            :type="showPassword ? 'text' : 'password'"
+            autocomplete="current-password"
+            class="text-black"
             density="compact"
+            name="password"
             :placeholder="$t('app.auth.password')"
             prepend-inner-icon="mdi-lock-outline"
-            variant="outlined"
-            autocomplete="current-password"
-            @click:append-inner="showPassword = !showPassword"
             :rules="rules.password"
+            :type="showPassword ? 'text' : 'password'"
+            variant="outlined"
+            @click:append-inner="showPassword = !showPassword"
           />
         </div>
 
         <v-btn
+          block
           class="mt-2"
           color="primary text-none"
-          size="large"
-          block
-          rounded="3"
           :loading="loading"
+          rounded="3"
+          size="large"
           @click="connect"
         >
-          <v-icon icon="mdi-login-variant" class="mr-2" />
+          <v-icon class="mr-2" icon="mdi-login-variant" />
           Login
         </v-btn>
       </v-form>
@@ -65,15 +64,13 @@
 </template>
 
 <script setup>
-  import { ref, getCurrentInstance, reactive, computed } from 'vue'
-  import http from '@/utils/http.js'
-  import { FORM_RULES } from '@/validators/form-rules.js'
   import { useRouter } from 'vue-router'
-  import { storeToRefs } from 'pinia'
-  import { t } from '../../plugins/i18n'
   import { ROLE_NAME } from '@/constants/index.js'
   import { useCookieStore } from '@/stores/cookie'
   import { useUserStore } from '@/stores/user'
+  import http from '@/utils/http.js'
+  import { FORM_RULES } from '@/validators/form-rules.js'
+  import { t } from '../../plugins/i18n'
 
   const instance = getCurrentInstance()
   const { user } = storeToRefs(useUserStore())
@@ -95,8 +92,8 @@
   })
   const rules = computed(() => {
     return {
-      email: [(v) => !!v || 'Please enter your email', FORM_RULES.email],
-      password: [(v) => !!v || 'Please enter your password'],
+      email: [v => !!v || 'Please enter your email', FORM_RULES.email],
+      password: [v => !!v || 'Please enter your password'],
     }
   })
 
@@ -120,8 +117,8 @@
       user.value.permissions = permissions
 
       router.push({ name: defaultRoute[role.name] })
-    } catch (err) {
-      if (err.response.data.message) {
+    } catch (error) {
+      if (error.response.data.message) {
         instance.root.$notif(t('app.rules.loginFail'), { type: 'error' })
       }
     } finally {

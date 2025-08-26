@@ -5,19 +5,19 @@
     >
       <span>{{ props.title }}</span>
       <div class="w-50">
-        <slot></slot>
+        <slot />
       </div>
       <div>
         <v-menu rounded>
-          <template v-slot:activator="{ props }">
-            <v-btn icon v-bind="props" color="primary" size="small">
+          <template #activator="{ props: menuProps }">
+            <v-btn v-bind="menuProps" color="primary" icon size="small">
               <v-avatar class="profile" color="primary">
                 <v-img
                   v-if="userData.image"
-                  :src="userData.image"
                   :alt="userData.first_name"
                   cover
-                ></v-img>
+                  :src="userData.image"
+                />
                 <span v-else class="text-white">{{ initials }}</span>
               </v-avatar>
             </v-btn>
@@ -28,10 +28,10 @@
                 <v-avatar class="profile" size="72">
                   <v-img
                     v-if="userData.image"
-                    :src="userData.image"
                     :alt="userData.first_name"
                     cover
-                  ></v-img>
+                    :src="userData.image"
+                  />
                   <span v-else class="text-h4 text-white">{{ initials }}</span>
                 </v-avatar>
                 <h3>{{ userData.first_name }} {{ userData.last_name }}</h3>
@@ -42,7 +42,7 @@
                   class="text-left ml-5 font-inter cursor text-subtitle-1 mt-1"
                   @click="$router.push('/manage_account')"
                 >
-                  <v-icon icon="mdi-cog" color="white" size="small"></v-icon>
+                  <v-icon color="white" icon="mdi-cog" size="small" />
                   {{ $t('app.header.sitting.manageAcc') }}
                 </p>
                 <p
@@ -50,10 +50,10 @@
                   @click="$router.push('/store')"
                 >
                   <v-icon
-                    icon="mdi-store-cog"
                     color="white"
+                    icon="mdi-store-cog"
                     size="small"
-                  ></v-icon>
+                  />
                   {{ $t('app.header.sitting.manageStore') }}
                 </p>
                 <p
@@ -61,20 +61,20 @@
                   @click="$router.push('/change_password')"
                 >
                   <v-icon
-                    icon="mdi-shield-lock-outline"
                     color="white"
+                    icon="mdi-shield-lock-outline"
                     size="small"
-                  ></v-icon>
+                  />
                   {{ $t('app.header.sitting.password') }}
                 </p>
-                <v-divider class="my-3"></v-divider>
+                <v-divider class="my-3" />
                 <div class="d-flex justify-center">
                   <danger-button @click="isLogout = true">
                     <v-icon
-                      icon="mdi-logout"
                       color="white"
+                      icon="mdi-logout"
                       size="large"
-                    ></v-icon>
+                    />
                     {{ $t('app.auth.logout') }}
                   </danger-button>
                 </div>
@@ -88,31 +88,29 @@
 
   <base-dialog
     v-model="isLogout"
-    title="Log out"
     ms="Are you sure you want to log out?"
+    title="Log out"
   >
     <danger-button @click="isLogout = false">
-      <v-icon icon="mdi-close-box-multiple" color="white" size="large"></v-icon>
+      <v-icon color="white" icon="mdi-close-box-multiple" size="large" />
       Cancel
     </danger-button>
     <primary-button @click="logout">
       <v-icon
-        icon="mdi-checkbox-multiple-marked"
         color="white"
+        icon="mdi-checkbox-multiple-marked"
         size="large"
-      ></v-icon>
+      />
       Confirm
     </primary-button>
   </base-dialog>
 </template>
 
 <script setup>
-  import { defineProps, ref } from 'vue'
-  import { useCookieStore } from '@/stores/cookie'
-  import { useRouter } from 'vue-router'
-  import { useUserStore } from '@/stores/user'
   import { storeToRefs } from 'pinia'
-  import { computed } from 'vue'
+  import { useRouter } from 'vue-router'
+  import { useCookieStore } from '@/stores/cookie'
+  import { useUserStore } from '@/stores/user'
 
   // Variables
   const props = defineProps(['title', 'class'])
@@ -136,8 +134,8 @@
       removeCookie('user_role')
       removeCookie('user')
       router.push('/login')
-    } catch (err) {
-      console.log(err)
+    } catch (error) {
+      console.log(error)
     }
   }
 </script>

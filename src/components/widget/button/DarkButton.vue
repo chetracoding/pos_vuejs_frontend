@@ -1,6 +1,6 @@
 <template>
   <v-btn class="btn-bg rounded-lg d-flex text-subtitle-1 py-2 px-1 text-none text-white">
-    <slot></slot>
+    <slot />
   </v-btn>
 </template>
 

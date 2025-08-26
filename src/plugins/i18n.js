@@ -1,50 +1,35 @@
-// import Vue from 'vue';
-import { createI18n } from "vue-i18n";
+import { createI18n } from 'vue-i18n'
 
-// Vue.use(VueI18n);
+function loadLocaleMessages () {
+  const messages = {}
+  const files = import.meta.glob('@/locales/*/*.json', { eager: true })
 
-function loadLocaleMessages() {
-  const locales = require.context(
-    "@/locales",
-    true,
-    /[A-Za-z0-9-_,\s]+\.json$/i
-  );
-  const messages = {};
-  locales.keys().forEach((key) => {
-    const matched = key.match(/([A-Za-z0-9-_]+)\./i);
-    if (matched && matched.length > 1) {
-      const matched = key.match(/([A-Za-z0-9-_]+)\//i);
-      const matchedModule = key.match(/([A-Za-z0-9-_]+)\./i);
-      if (
-        matched &&
-        matched.length > 1 &&
-        matched &&
-        matchedModule.length > 1
-      ) {
-        const locale = matched[1];
-        const module = matchedModule[1];
-        if (!messages[locale]) messages[locale] = {};
-        messages[locale][module] = locales(key);
+  for (const path of Object.keys(files)) {
+    const matched = path.match(/locales\/([A-Za-z0-9-_]+)\/(.+)\.json$/i)
+
+    if (matched && matched.length > 2) {
+      const locale = matched[1]
+      const namespace = matched[2]
+
+      if (!messages[locale]) {
+        messages[locale] = {}
       }
+      messages[locale][namespace] = files[path].default
     }
-  });
-  return messages;
+  }
+
+  return messages
 }
 
-// const getLng = localStorage.getItem("lng");
-// const currentLng = getLng === "kh" ? getLng : "en";
-// import { useI18nStore } from "@/lib/state/i18n/i18n";
-// import { storeToRefs } from "pinia";
-// const { lng } = storeToRefs(useI18nStore());
-
 const i18n = createI18n({
-  locale: 'en', // set locale
-  // fallbackLocale: "kh",
-  messages: loadLocaleMessages(), // set locale messages
-});
+  legacy: false,
+  locale: 'en',
+  fallbackLocale: 'en',
+  messages: loadLocaleMessages(),
+})
 
-export default i18n;
+export default i18n
 
-export const t = (key) => {
-  return i18n.global.t(key);
-};
+export const t = key => {
+  return i18n.global.t(key)
+}

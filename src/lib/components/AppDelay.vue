@@ -5,9 +5,9 @@
 </template>
 
 <script setup>
-import { useLoadingStore } from "../state/loading/loading";
-import { storeToRefs } from "pinia";
-const { isLoading } = storeToRefs(useLoadingStore());
+  import { storeToRefs } from 'pinia'
+  import { useLoadingStore } from '../state/loading/loading'
+  const { isLoading } = storeToRefs(useLoadingStore())
 </script>
 
 <style scoped>

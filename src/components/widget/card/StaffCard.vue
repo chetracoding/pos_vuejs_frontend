@@ -8,16 +8,13 @@
     <span class="text-capitalize w-15 pl-5">{{ user.role.label }}</span>
     <!--Action-->
     <v-card-actions class="w-20 d-flex justify-end">
-      <slot></slot>
+      <slot />
     </v-card-actions>
   </v-card>
 </template>
 
 <script setup>
-// Import
-import { defineProps } from "vue";
-
-defineProps(["user"]);
+  defineProps(['user'])
 </script>
 
 <style scoped>

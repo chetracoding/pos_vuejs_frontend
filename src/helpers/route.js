@@ -1,4 +1,4 @@
-export function getAllRoutes(routes) {
+export function getAllRoutes (routes) {
   let routesToReturn = []
 
   for (const route of routes) {

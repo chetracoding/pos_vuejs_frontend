@@ -1,5 +1,5 @@
-import { defineStore } from "pinia";
-import http from "@/utils/http.js";
+import { defineStore } from 'pinia'
+import http from '@/utils/http.js'
 
 const initialProduct = {
   name: null,
@@ -8,9 +8,9 @@ const initialProduct = {
   description: null,
   is_active: false,
   image: null,
-  product_customizes: []
-};
-export const useProductStore = defineStore("product", {
+  product_customizes: [],
+}
+export const useProductStore = defineStore('product', {
   state: () => {
     return {
       productInForm: { ...initialProduct },
@@ -19,102 +19,102 @@ export const useProductStore = defineStore("product", {
       deleteSuccess: false,
       updateSuccess: false,
       errProductCode: '',
-      products: []
-    };
+      products: [],
+    }
   },
   actions: {
-    resetProductForm() {
-      initialProduct.product_customizes = [];
-      this.productInForm = { ...initialProduct };
+    resetProductForm () {
+      initialProduct.product_customizes = []
+      this.productInForm = { ...initialProduct }
     },
-    async getProducts() {
+    async getProducts () {
       try {
-        const res = await http.get('products');
+        const res = await http.get('products')
         if (res.data.success) {
-          this.products = res.data.data;
+          this.products = res.data.data
         }
-      } catch (err) {
-        return err;
+      } catch (error) {
+        return error
       }
     },
-    async searchProducts(keyword) {
+    async searchProducts (keyword) {
       try {
-        const res = await http.get(`products/search/${keyword}`);
+        const res = await http.get(`products/search/${keyword}`)
         if (res.data.success) {
-          this.products = res.data.data;
+          this.products = res.data.data
         }
-      } catch (err) {
-        return err;
+      } catch (error) {
+        return error
       }
     },
-    async filterProducts(category_id) {
+    async filterProducts (category_id) {
       try {
-        const res = await http.get(`products/filter/${category_id}`);
+        const res = await http.get(`products/filter/${category_id}`)
         if (res.data.success) {
-          this.products = res.data.data;
+          this.products = res.data.data
         }
-      } catch (err) {
-        if (!err.response.data.success) {
-          this.products = [];
-        }
-      }
-    },
-    async getPopularProducts() {
-      try {
-        const res = await http.get('popular_products');
-        if (res.data.success) {
-          this.products = res.data.data;
-        }
-      } catch (err) {
-        if (!err.response.data.success) {
-          this.products = [];
+      } catch (error) {
+        if (!error.response.data.success) {
+          this.products = []
         }
       }
     },
-    async storeProduct(product) {
-      console.log(product);
+    async getPopularProducts () {
       try {
-        const res = await http.post('products', product);
+        const res = await http.get('popular_products')
         if (res.data.success) {
-          this.success = true;
-          this.errProductCode = '';
-          this.getProducts();
+          this.products = res.data.data
         }
-      } catch (err) {
-        if (err.response.data.message.product_code) {
-          this.errProductCode = 'Code already exists.';
+      } catch (error) {
+        if (!error.response.data.success) {
+          this.products = []
         }
       }
     },
-    async updateProduct(product) {
+    async storeProduct (product) {
+      console.log(product)
+      try {
+        const res = await http.post('products', product)
+        if (res.data.success) {
+          this.success = true
+          this.errProductCode = ''
+          this.getProducts()
+        }
+      } catch (error) {
+        if (error.response.data.message.product_code) {
+          this.errProductCode = 'Code already exists.'
+        }
+      }
+    },
+    async updateProduct (product) {
       // console.log(product);
       try {
-        product.product_customizes = product.product_customizes.map(({ _id, price, size }) => 
-         ({ product_customize_id: _id, price, size }));
-        const { name, description, product_code, image, is_active, category_id, product_customizes } = product;
-        const res = await http.put(`products/${product.product_id}`, { name, description, product_code, image, is_active, category_id, product_customizes });
+        product.product_customizes = product.product_customizes.map(({ _id, price, size }) =>
+          ({ product_customize_id: _id, price, size }))
+        const { name, description, product_code, image, is_active, category_id, product_customizes } = product
+        const res = await http.put(`products/${product.product_id}`, { name, description, product_code, image, is_active, category_id, product_customizes })
         if (res.data.success) {
-          this.updateSuccess = true;
-          this.errProductCode = '';
-          this.getProducts();
+          this.updateSuccess = true
+          this.errProductCode = ''
+          this.getProducts()
         }
-      } catch (err) {
+      } catch (error) {
         // if (err.response.data.message.product_code) {
         //   this.errProductCode = 'Code already exists.';
         // }
-        console.log(err.response.data);
+        console.log(error.response.data)
       }
     },
-    async deleteProduct(product_id) {
+    async deleteProduct (product_id) {
       try {
-        const res = await http.delete(`products/${product_id}`);
+        const res = await http.delete(`products/${product_id}`)
         if (res.data.success) {
-          this.products = this.products.filter((r) => r._id !== product_id);
-          this.deleteSuccess = true;
+          this.products = this.products.filter(r => r._id !== product_id)
+          this.deleteSuccess = true
         }
-      } catch (err) {
-        return err;
+      } catch (error) {
+        return error
       }
     },
   },
-});
+})

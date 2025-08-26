@@ -6,11 +6,9 @@
       </h6>
     </v-card>
 
-    <slot></slot>
+    <slot />
   </v-sheet>
 </template>
 <script setup>
-import { defineProps } from "vue";
-defineProps(["table"]);
+  defineProps(['table'])
 </script>
-

@@ -1,23 +1,10 @@
-import { useUserStore } from './user.js'
-import { useCategoryStore } from './category.js'
-import { useCookieStore } from './cookie.js'
-import { useMoneyStore } from './money.js'
-import { useOrderStore } from './order.js'
-import { useProductStore } from './product.js'
-import { useReportsStore } from './reports.js'
-import { useRoleStore } from './role.js'
-import { useStoreStore } from './store.js'
-import { useTableStore } from './table.js'
-
-export {
-  useUserStore,
-  useCategoryStore,
-  useCookieStore,
-  useMoneyStore,
-  useOrderStore,
-  useProductStore,
-  useReportsStore,
-  useRoleStore,
-  useStoreStore,
-  useTableStore,
-}
+export { useCategoryStore } from './category.js'
+export { useCookieStore } from './cookie.js'
+export { useMoneyStore } from './money.js'
+export { useOrderStore } from './order.js'
+export { useProductStore } from './product.js'
+export { useReportsStore } from './reports.js'
+export { useRoleStore } from './role.js'
+export { useStoreStore } from './store.js'
+export { useTableStore } from './table.js'
+export { useUserStore } from './user.js'

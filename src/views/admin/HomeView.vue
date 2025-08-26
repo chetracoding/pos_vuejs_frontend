@@ -7,13 +7,13 @@
     <v-main class="ma-2">
       <v-row no-gutters>
         <v-col cols="4">
-          <v-card class="item" variant="flat" rounded="2">
+          <v-card class="item" rounded="2" variant="flat">
             <div
-              @click="to('product')"
               class="cursor-pointer rounded-lg d-flex justify-space-between align-center"
+              @click="to('product')"
             >
               <v-card class="w-50">
-                <v-icon icon="mdi-cube-outline" size="x-large"></v-icon>
+                <v-icon icon="mdi-cube-outline" size="x-large" />
                 <span class="mt-1">{{ $t('app.nav.product') }}</span>
               </v-card>
               <!-- <div
@@ -155,14 +155,12 @@
 
 <script setup>
   import ResOwnerSideBar from '@/components/aside/ResOwnerSideBar'
-  import { useProductStore } from '@/stores/product'
+  import router from '@/router/index'
   import { useCategoryStore } from '@/stores/category'
+  import { useProductStore } from '@/stores/product'
+  import { useReportsStore } from '@/stores/reports'
   import { useTableStore } from '@/stores/table'
   import { useUserStore } from '@/stores/user'
-  import { useReportsStore } from '@/stores/reports'
-  import { onMounted } from 'vue'
-  import { storeToRefs } from 'pinia'
-  import router from '@/router/index'
 
   const { getProducts } = useProductStore()
   const { getCategory } = useCategoryStore()
@@ -183,7 +181,7 @@
   })
   const getYear = currentDate.getFullYear()
 
-  const to = (routePath) => {
+  const to = routePath => {
     router.push(routePath)
   }
 

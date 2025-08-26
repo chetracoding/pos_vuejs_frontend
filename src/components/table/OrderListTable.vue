@@ -2,19 +2,19 @@
   <!-- Dialog remove customize -->
   <base-dialog
     v-model="isComplete"
-    title="Tips"
     ms="Are you sure you want to check out?"
+    title="Tips"
   >
     <danger-button @click="isComplete = false">
-      <v-icon icon="mdi-close-box-multiple" color="white" size="large"></v-icon>
+      <v-icon color="white" icon="mdi-close-box-multiple" size="large" />
       Cancel
     </danger-button>
     <primary-button @click="complete()">
       <v-icon
-        icon="mdi-checkbox-multiple-marked"
         color="white"
+        icon="mdi-checkbox-multiple-marked"
         size="large"
-      ></v-icon>
+      />
       Confirm
     </primary-button>
   </base-dialog>
@@ -37,12 +37,12 @@
     </v-card-text>
     <v-card-actions>
       <dark-button @click="(orderInfo = order), (dialog = true)">
-        <v-icon icon="mdi-eye" color="red-accent-2"> </v-icon>
+        <v-icon color="red-accent-2" icon="mdi-eye" />
         View
       </dark-button>
 
       <dark-button @click="printClicked(order)">
-        <v-icon icon="mdi-printer" color="red-accent-2"> </v-icon>
+        <v-icon color="red-accent-2" icon="mdi-printer" />
         Print
       </dark-button>
 
@@ -51,8 +51,7 @@
           isComplete = true;
           orderClicked = order;
         "
-        ><v-icon icon="mdi-checkbox-marked-circle" color="red-accent-2">
-        </v-icon>
+      ><v-icon color="red-accent-2" icon="mdi-checkbox-marked-circle" />
         Check out
       </dark-button>
     </v-card-actions>
@@ -61,9 +60,7 @@
   <!-- Dialog of confirm order -->
   <v-dialog v-model="dialog" persistent width="600">
     <v-card class="rounded-lg">
-      <v-card-title class="bg-red-accent-2 text-center"
-        >Order Details</v-card-title
-      >
+      <v-card-title class="bg-red-accent-2 text-center">Order Details</v-card-title>
       <v-card-text>
         <div class="d-flex text-darken-4">
           <h6>ID:</h6>
@@ -92,38 +89,35 @@
             <div>
               <span>{{
                 order_detail.product_customize_id.product_id.name
-              }}</span
-              ><br />
+              }}</span><br>
               <span>size / {{ order_detail.product_customize_id.size }}</span>
             </div>
             <div class="d-flex">
               <span>X{{ order_detail.quantity }}</span>
-              <v-spacer></v-spacer>
-              <span
-                >${{
-                  (
-                    order_detail.quantity *
-                    order_detail.product_customize_id.price
-                  ).toFixed(2)
-                }}</span
-              >
+              <v-spacer />
+              <span>${{
+                (
+                  order_detail.quantity *
+                  order_detail.product_customize_id.price
+                ).toFixed(2)
+              }}</span>
             </div>
-            <hr />
+            <hr>
           </div>
         </v-list>
 
         <div class="d-flex">
           <h6 class="text-darken-4 font-weight-bold">Total:</h6>
-          <v-spacer></v-spacer>
+          <v-spacer />
           <h6 v-if="orderInfo" class="font-weight-bold text-darken-4">
             ${{ totalPriceOrderInfo }}
           </h6>
         </div>
       </v-card-text>
       <v-card-actions class="bg-grey-lighten-2">
-        <v-spacer></v-spacer>
+        <v-spacer />
         <danger-button @click="dialog = false">
-          <v-icon icon="mdi-close-box-multiple"></v-icon>
+          <v-icon icon="mdi-close-box-multiple" />
           Close
         </danger-button>
       </v-card-actions>
@@ -132,7 +126,7 @@
 
   <!-- Print bill---------- -->
   <div class="d-none">
-    <div id="printOrder" v-if="orderPrint">
+    <div v-if="orderPrint" id="printOrder">
       <div width="100%">
         <h6 class="text-center text-h4">
           Welcome to:
@@ -158,28 +152,28 @@
             </h6>
           </div>
           <!-- list of food -->
-          <hr />
+          <hr>
           <v-table>
             <thead>
               <tr>
                 <th class="bg-white text-center text-black font-weight-bold">
-                  បរិយាយ <br />
+                  បរិយាយ <br>
                   Description
                 </th>
                 <th class="bg-white text-center text-black font-weight-bold">
-                  ទំហំ <br />
+                  ទំហំ <br>
                   Size
                 </th>
                 <th class="bg-white text-center text-black font-weight-bold">
-                  ចំនួន <br />
+                  ចំនួន <br>
                   Quantity
                 </th>
                 <th class="bg-white text-center text-black font-weight-bold">
-                  តម្លៃ <br />
+                  តម្លៃ <br>
                   Price
                 </th>
                 <th class="bg-white text-center text-black font-weight-bold">
-                  សរុប <br />
+                  សរុប <br>
                   Amount
                 </th>
               </tr>
@@ -210,14 +204,14 @@
               </tr>
             </tbody>
           </v-table>
-          <hr />
+          <hr>
           <div class="p-1">
             <h6 class="text-subtitle-1">
               សរុប / Sub Total :
               <span class="font-weight-bold"> ${{ totalPriceOrderPrint }}</span>
             </h6>
-            <br />
-            <i class="font-weight-bold"> Thanks, Please come again. </i><br />
+            <br>
+            <i class="font-weight-bold"> Thanks, Please come again. </i><br>
           </div>
         </div>
       </div>
@@ -226,61 +220,60 @@
 </template>
 
 <script setup>
-import { ref, defineProps, computed, getCurrentInstance } from "vue";
-import { useOrderStore } from "@/stores/order";
-import printJS from "print-js";
+  import printJS from 'print-js'
+  import { useOrderStore } from '@/stores/order'
 
-// Variables
-const instance = getCurrentInstance();
-const props = defineProps(["orders"]);
-const dialog = ref(false);
-const orderInfo = ref(null);
-const orderPrint = ref(null);
-const isComplete = ref(false);
-const orderClicked = ref(null);
-const { updateOrdersToPaid } = useOrderStore();
+  // Variables
+  const instance = getCurrentInstance()
+  const props = defineProps(['orders'])
+  const dialog = ref(false)
+  const orderInfo = ref(null)
+  const orderPrint = ref(null)
+  const isComplete = ref(false)
+  const orderClicked = ref(null)
+  const { updateOrdersToPaid } = useOrderStore()
 
-// Computed
-// Total price for print
-const totalPriceOrderPrint = computed(() => {
-  return getTotalPrice(orderPrint.value).toFixed(2);
-});
-// Total price to view
-const totalPriceOrderInfo = computed(() => {
-  return getTotalPrice(orderInfo.value).toFixed(2);
-});
+  // Computed
+  // Total price for print
+  const totalPriceOrderPrint = computed(() => {
+    return getTotalPrice(orderPrint.value).toFixed(2)
+  })
+  // Total price to view
+  const totalPriceOrderInfo = computed(() => {
+    return getTotalPrice(orderInfo.value).toFixed(2)
+  })
 
-// Method
-const getTotalPrice = (order) => {
-  const sum = ref(0);
-  for (let order_detail of order.order_details) {
-    sum.value +=
-      order_detail.product_customize_id.price * order_detail.quantity;
+  // Method
+  const getTotalPrice = order => {
+    const sum = ref(0)
+    for (const order_detail of order.order_details) {
+      sum.value
+        += order_detail.product_customize_id.price * order_detail.quantity
+    }
+    return sum.value
   }
-  return sum.value;
-};
-const complete = async () => {
-  const updatePaidOrde = {
-    is_completed: orderClicked.value.is_completed,
-    is_paid: true,
-  };
-  isComplete.value = false;
-  await updateOrdersToPaid(orderClicked.value._id, updatePaidOrde);
-  orderClicked.value = null;
-  instance.root.$notif("Successful checked out", { type: "success" });
-};
+  const complete = async () => {
+    const updatePaidOrde = {
+      is_completed: orderClicked.value.is_completed,
+      is_paid: true,
+    }
+    isComplete.value = false
+    await updateOrdersToPaid(orderClicked.value._id, updatePaidOrde)
+    orderClicked.value = null
+    instance.root.$notif('Successful checked out', { type: 'success' })
+  }
 
-const printClicked = async (order) => {
-  orderPrint.value = order;
-  // Referrent from :https://fontawesomeicons.com/tryit/code/vue-js-print-current-page/1
-  // Purpose: to print a bill
+  const printClicked = async order => {
+    orderPrint.value = order
+    // Referrent from :https://fontawesomeicons.com/tryit/code/vue-js-print-current-page/1
+    // Purpose: to print a bill
 
-  setTimeout(() => {
-    printJS({
-      printable: "printOrder",
-      type: "html",
-      targetStyles: ["*"],
-    });
-  }, 1);
-};
+    setTimeout(() => {
+      printJS({
+        printable: 'printOrder',
+        type: 'html',
+        targetStyles: ['*'],
+      })
+    }, 1)
+  }
 </script>

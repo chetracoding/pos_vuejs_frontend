@@ -6,16 +6,15 @@
 </template>
 
 <script setup>
-  import socket from '@/utils/websocket.js'
-  import { onMounted, getCurrentInstance, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   import { RouterView } from 'vue-router'
-  import i18n from './plugins/i18n'
   import { useOrderStore } from '@/stores/order'
   import { useUserStore } from '@/stores/user'
-  import Notif from './lib/components/AppNotification.vue'
-  import AppDelay from './lib/components/AppDelay.vue'
+  import socket from '@/utils/websocket.js'
   import AppConfirm from './lib/components/AppConfirm.vue'
+  import AppDelay from './lib/components/AppDelay.vue'
+  import Notif from './lib/components/AppNotification.vue'
+  import i18n from './plugins/i18n'
 
   const { getOrder, getOrdersNotCompleted } = useOrderStore()
   const { userData } = storeToRefs(useUserStore())
@@ -26,10 +25,10 @@
   const rootInstance = getCurrentInstance()
 
   onMounted(() => {
-    socket.on('msg_to_client', (data) => {
+    socket.on('msg_to_client', data => {
       if (
-        userData.value.store._id !== data.store._id ||
-        !['chef', 'cashier'].includes(userData.value.role.name)
+        userData.value.store._id !== data.store._id
+        || !['chef', 'cashier'].includes(userData.value.role.name)
       ) {
         return
       }
@@ -44,7 +43,7 @@
       getOrder()
     })
 
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
       if (e.shiftKey && e.ctrlKey && e.key === 'L') {
         i18n.global.locale = i18n.global.locale === 'en' ? 'kh' : 'en'
       }

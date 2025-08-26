@@ -1,14 +1,14 @@
 <template>
   <div class="h-screen d-flex justify-center align-center bg-white">
     <v-form
-      @submit.prevent="send"
       class="form d-flex flex-column align-center rounded-lg w-40 px-8 py-10"
+      @submit.prevent="send"
     >
       <div class="d-flex flex-column align-center justify-center text-center">
         <v-icon
-          icon="mdi-lock-question"
           class="logo mb-4 text-primary"
-        ></v-icon>
+          icon="mdi-lock-question"
+        />
         <h2>{{ $t('app.auth.forgot.title') }}</h2>
         <!-- <span
           >Enter your <span class="text-red-accent-2">email address</span> to
@@ -21,12 +21,12 @@
       <div class="w-100 mt-4">
         <v-text-field
           v-model="credential.email"
-          name="username"
           class="text-black placeholer-capitalize"
           density="compact"
+          name="username"
           :placeholder="$t('app.auth.email')"
-          type="email"
           prepend-inner-icon="mdi-email-outline"
+          type="email"
           variant="outlined"
         />
       </div>
@@ -42,18 +42,18 @@
         {{ $t('app.auth.forgot.send') }}
       </primary-button> -->
       <v-btn
+        block
         class="mt-2 text-none"
         color="primary"
-        size="large"
-        block
-        rounded="3"
-        @click="v$.$touch()"
         :disabled="success"
+        rounded="3"
+        size="large"
+        @click="v$.$touch()"
       >
-        <v-icon icon="mdi-login-variant" class="mr-2" />
+        <v-icon class="mr-2" icon="mdi-login-variant" />
         {{ $t('app.auth.forgot.send') }}
       </v-btn>
-      <span @click="$router.push('/login')" class="mt-3 cursor text-primary">{{
+      <span class="mt-3 cursor text-primary" @click="$router.push('/login')">{{
         $t('app.auth.forgot.back')
       }}</span>
     </v-form>
@@ -61,12 +61,10 @@
 </template>
 
 <script setup>
-  import { ref, getCurrentInstance } from 'vue'
-  import http from '@/utils/http.js'
-  import { reactive } from 'vue'
-  import { useRouter } from 'vue-router'
   import useVuelidate from '@vuelidate/core'
-  import { required, email, helpers } from '@vuelidate/validators'
+  import { email, helpers, required } from '@vuelidate/validators'
+  import { useRouter } from 'vue-router'
+  import http from '@/utils/http.js'
   import { t } from '../../plugins/i18n'
 
   // Variables
@@ -99,7 +97,7 @@
           timeout: null,
         })
         router.push('/login')
-      } catch (err) {
+      } catch {
         instance.root.$notif('Your email is invalid', { type: 'error' })
       }
     }

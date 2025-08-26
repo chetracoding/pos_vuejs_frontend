@@ -2,7 +2,7 @@
 
 <template>
   <!--Don't have project-->
-  <div class="h-screen" v-if="products.length === 0">
+  <div v-if="products.length === 0" class="h-screen">
     <h4 class="text-center mt-5 text-orange-darken-4">No products available</h4>
   </div>
   <!-- Create table of list products -->
@@ -27,11 +27,20 @@
         <td>
           <div class="d-flex">
             <div class="d-flex align-center">
-              <v-switch @click="activeClicked(product)" v-model="product.is_active" class="mr-3" color="orange-darken-4"
-                hide-details="auto"></v-switch>
-              <v-icon @click="productInForm = {...product}; dialog = true;" icon="mdi-square-edit-outline" color="blue"
-                class="mr-3"></v-icon>
-              <v-icon icon="mdi-delete" color="red"></v-icon>
+              <v-switch
+                v-model="product.is_active"
+                class="mr-3"
+                color="orange-darken-4"
+                hide-details="auto"
+                @click="activeClicked(product)"
+              />
+              <v-icon
+                class="mr-3"
+                color="blue"
+                icon="mdi-square-edit-outline"
+                @click="productInForm = {...product}; dialog = true;"
+              />
+              <v-icon color="red" icon="mdi-delete" />
             </div>
           </div>
         </td>
@@ -42,28 +51,26 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
-import { useProductStore } from "@/stores/product";
-import { storeToRefs } from "pinia";
+  import { useProductStore } from '@/stores/product'
 
-// Variables
-const { dialog, productInForm } = storeToRefs(useProductStore());
-const props = defineProps(["products"]);
+  // Variables
+  const { dialog, productInForm } = storeToRefs(useProductStore())
+  const props = defineProps(['products'])
 
-// Method
-const { updateProduct } = useProductStore();
+  // Method
+  const { updateProduct } = useProductStore()
 
-const activeClicked = (product) => {
-  updateProduct({
-    product_id: product.product_id,
-    category_id: product.category.category_id,
-    name: product.name,
-    barcode: product.barcode,
-    description: product.description,
-    image: product.image,
-    is_active: !product.is_active,
-    product_customizes: product.product_customizes
-  });
-}
+  const activeClicked = product => {
+    updateProduct({
+      product_id: product.product_id,
+      category_id: product.category.category_id,
+      name: product.name,
+      barcode: product.barcode,
+      description: product.description,
+      image: product.image,
+      is_active: !product.is_active,
+      product_customizes: product.product_customizes,
+    })
+  }
 
 </script>

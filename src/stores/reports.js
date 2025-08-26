@@ -1,47 +1,47 @@
-import { defineStore } from "pinia";
-import http from "@/utils/http.js";
+import { defineStore } from 'pinia'
+import http from '@/utils/http.js'
 
-export const useReportsStore = defineStore("reports", {
+export const useReportsStore = defineStore('reports', {
   state: () => {
     return {
       productReports: [],
       moneyReports: [],
-    };
+    }
   },
   actions: {
-    async getProductReports(month, year) {
+    async getProductReports (month, year) {
       try {
         const res = await http.get(
-          `reports/product?month=${month}&year=${year}`
-        );
+          `reports/product?month=${month}&year=${year}`,
+        )
         if (res.data.success) {
-          this.productReports = res.data.data;
+          this.productReports = res.data.data
         }
-      } catch (err) {
-        return err;
+      } catch (error) {
+        return error
       }
     },
-    async getMoneyReports(year) {
+    async getMoneyReports (year) {
       try {
-        const res = await http.get(`reports/money?year=${year}`);
+        const res = await http.get(`reports/money?year=${year}`)
         if (res.data.success) {
-          this.moneyReports = res.data.data;
+          this.moneyReports = res.data.data
         }
-      } catch (err) {
-        return err;
+      } catch (error) {
+        return error
       }
     },
   },
   getters: {
-    totalProduct() {
+    totalProduct () {
       return this.productReports.reduce((accumulator, r) => {
-        return accumulator + r.total_orders;
-      }, 0);
+        return accumulator + r.total_orders
+      }, 0)
     },
-    totalMoney() {
+    totalMoney () {
       return this.moneyReports.reduce((accumulator, r) => {
-        return accumulator + r.total_money;
-      }, 0);
+        return accumulator + r.total_money
+      }, 0)
     },
   },
-});
+})

@@ -2,76 +2,76 @@
   <div class="h-screen bg-grey-lighten-1 d-flex flex-column align-center">
     <div class="w-100 bg-grey-lighten-1">
       <v-icon
-        @click="comeback"
         class="text-h4 text-black ml-5 mt-3"
         icon="mdi-keyboard-backspace"
-      ></v-icon>
+        @click="comeback"
+      />
     </div>
     <v-form
-      @submit.prevent="change"
       class="form d-flex flex-column align-center rounded-lg m-auto w-40 px-8 py-10"
+      @submit.prevent="change"
     >
       <div class="d-flex text-center flex-column align-center justify-center">
         <v-icon
-          icon="mdi-shield-lock"
           class="logo mb-2 text-red-accent-2"
-        ></v-icon>
+          icon="mdi-shield-lock"
+        />
         <h2>Change new password</h2>
       </div>
       <div class="w-100">
         <v-text-field
-          class="text-black"
           v-model="passwords.currentPassword"
           :append-inner-icon="showCurrentPassword ? 'mdi-eye-off' : 'mdi-eye'"
-          :type="showCurrentPassword ? 'text' : 'password'"
+          class="text-black"
           density="compact"
+          :error-messages="v$.currentPassword.$errors.map((e) => e.$message)"
           placeholder="Current password"
           prepend-inner-icon="mdi-lock-outline"
+          :type="showCurrentPassword ? 'text' : 'password'"
           variant="outlined"
-          @click:append-inner="showCurrentPassword = !showCurrentPassword"
-          :error-messages="v$.currentPassword.$errors.map((e) => e.$message)"
-          @input="v$.currentPassword.$touch"
           @blur="v$.currentPassword.$touch"
-        ></v-text-field>
+          @click:append-inner="showCurrentPassword = !showCurrentPassword"
+          @input="v$.currentPassword.$touch"
+        />
         <v-text-field
-          class="text-black mt-2"
           v-model="passwords.newPassword"
           :append-inner-icon="showNewPassword ? 'mdi-eye-off' : 'mdi-eye'"
-          :type="showNewPassword ? 'text' : 'password'"
+          class="text-black mt-2"
           density="compact"
+          :error-messages="v$.newPassword.$errors.map((e) => e.$message)"
           placeholder="New password"
           prepend-inner-icon="mdi-lock-outline"
+          :type="showNewPassword ? 'text' : 'password'"
           variant="outlined"
-          @click:append-inner="showNewPassword = !showNewPassword"
-          :error-messages="v$.newPassword.$errors.map((e) => e.$message)"
-          @input="v$.newPassword.$touch"
           @blur="v$.newPassword.$touch"
-        ></v-text-field>
+          @click:append-inner="showNewPassword = !showNewPassword"
+          @input="v$.newPassword.$touch"
+        />
         <v-text-field
-          class="text-black mt-2"
           v-model="passwords.confirmPassword"
           :append-inner-icon="showConfirm ? 'mdi-eye-off' : 'mdi-eye'"
-          :type="showConfirm ? 'text' : 'password'"
+          class="text-black mt-2"
           density="compact"
+          :error-messages="v$.confirmPassword.$errors.map((e) => e.$message)"
           placeholder="Confirm password"
           prepend-inner-icon="mdi-lock-check-outline"
-          variant="outlined"
-          @click:append-inner="showConfirm = !showConfirm"
           :rules="[passwordConfirmationRule]"
-          :error-messages="v$.confirmPassword.$errors.map((e) => e.$message)"
-          @input="v$.confirmPassword.$touch"
+          :type="showConfirm ? 'text' : 'password'"
+          variant="outlined"
           @blur="v$.confirmPassword.$touch"
-        ></v-text-field>
+          @click:append-inner="showConfirm = !showConfirm"
+          @input="v$.confirmPassword.$touch"
+        />
       </div>
       <primary-button
-        @click="v$.$touch()"
-        :disabled="success"
-        class="mt-2"
         block
+        class="mt-2"
+        :disabled="success"
         size="large"
         type="medium"
+        @click="v$.$touch()"
       >
-        <v-icon icon="mdi-lock-reset" class="mr-2"></v-icon>
+        <v-icon class="mr-2" icon="mdi-lock-reset" />
         CHANGE
       </primary-button>
     </v-form>
@@ -79,77 +79,73 @@
 </template>
 
 <script setup>
-import { reactive, ref, getCurrentInstance } from "vue";
-import http from "@/utils/http.js";
-import useVuelidate from "@vuelidate/core";
-import { required, minLength } from "@vuelidate/validators";
-import { useUserStore } from "@/stores/user";
-import { storeToRefs } from "pinia";
-import router from "@/router";
+  import useVuelidate from '@vuelidate/core'
+  import { minLength, required } from '@vuelidate/validators'
+  import { storeToRefs } from 'pinia'
+  import { getCurrentInstance, reactive, ref } from 'vue'
+  import router from '@/router'
+  import { useUserStore } from '@/stores/user'
+  import http from '@/utils/http.js'
 
-// Variables
-const instance = getCurrentInstance();
-const { userData } = storeToRefs(useUserStore());
-const success = ref(false);
-const showCurrentPassword = ref(false);
-const showNewPassword = ref(false);
-const showConfirm = ref(false);
-const initialsPassword = {
-  currentPassword: "",
-  newPassword: "",
-  confirmPassword: "",
-};
-const passwords = reactive({
-  ...initialsPassword,
-});
-const rules = {
-  currentPassword: { required },
-  newPassword: { required, minLength: minLength(8) },
-  confirmPassword: { required },
-};
-const v$ = useVuelidate(rules, passwords);
-// Validation confirm password
-const passwordConfirmationRule = () => {
-  if (passwords.newPassword !== passwords.confirmPassword) {
-    return "Confirm password must be match.";
-  } else {
-    return true;
+  // Variables
+  const instance = getCurrentInstance()
+  const { userData } = storeToRefs(useUserStore())
+  const success = ref(false)
+  const showCurrentPassword = ref(false)
+  const showNewPassword = ref(false)
+  const showConfirm = ref(false)
+  const initialsPassword = {
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
   }
-};
+  const passwords = reactive({
+    ...initialsPassword,
+  })
+  const rules = {
+    currentPassword: { required },
+    newPassword: { required, minLength: minLength(8) },
+    confirmPassword: { required },
+  }
+  const v$ = useVuelidate(rules, passwords)
+  // Validation confirm password
+  const passwordConfirmationRule = () => {
+    return passwords.newPassword === passwords.confirmPassword ? true : 'Confirm password must be match.'
+  }
 
-// Method
-const change = async () => {
-  if (v$.value.$errors.length === 0 && passwordConfirmationRule() === true) {
-    let changePassword = {
-      old_pwd: passwords.currentPassword,
-      new_pwd: passwords.newPassword,
-    };
-    try {
-      const res = await http.post("auth/change-pwd", changePassword);
-      instance.root.$notif("Successful updated", { type: "success" });
-      if (res.data.success) {
-        success.value = true;
-        router.push(
-          router.options.routes.find(
-            (r) =>
-              r.meta &&
-              r.meta.role === userData.value.role.name &&
-              r.meta.defaultPage
-          ).path
-        );
+  // Method
+  const change = async () => {
+    if (v$.value.$errors.length === 0 && passwordConfirmationRule() === true) {
+      const changePassword = {
+        old_pwd: passwords.currentPassword,
+        new_pwd: passwords.newPassword,
       }
-    } catch (err) {
-      if (err.response.status === 400) {
-        instance.root.$notif("Your current password is incorrect", {
-          type: "error",
-        });
+      try {
+        const res = await http.post('auth/change-pwd', changePassword)
+        instance.root.$notif('Successful updated', { type: 'success' })
+        if (res.data.success) {
+          success.value = true
+          router.push(
+            router.options.routes.find(
+              r =>
+                r.meta
+                && r.meta.role === userData.value.role.name
+                && r.meta.defaultPage,
+            ).path,
+          )
+        }
+      } catch (error) {
+        if (error.response.status === 400) {
+          instance.root.$notif('Your current password is incorrect', {
+            type: 'error',
+          })
+        }
       }
     }
   }
-};
-const comeback = () => {
-  router.go(-1);
-};
+  const comeback = () => {
+    router.go(-1)
+  }
 </script>
 
 <style scoped>

@@ -1,22 +1,22 @@
 <template>
   <v-navigation-drawer
     class="bg-white"
-    width="100"
+    elevation="1"
     mobile-breakpoint="xs"
     permanent
     rounded="4"
-    elevation="1"
+    width="100"
   >
     <div class="d-flex flex-column align-center ma-1">
       <v-list-item
         v-for="item in menus"
         :key="item"
-        :to="item.link"
         active-class="bg-primary"
-        width="84px"
-        height="70px"
         class="text-decoration-none mb-1"
+        height="70px"
         rounded="4"
+        :to="item.link"
+        width="84px"
       >
         <div class="d-flex flex-column align-center" width="10px">
           <v-icon :icon="item.icon" size="small" />
@@ -28,7 +28,6 @@
 </template>
 
 <script setup>
-  import { defineProps } from 'vue'
   defineProps(['menus'])
 </script>
 

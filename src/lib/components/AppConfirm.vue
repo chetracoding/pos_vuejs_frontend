@@ -2,13 +2,13 @@
   <v-dialog
     v-model="dialog"
     :max-width="options.width"
-    @keydown.esc="isPersistent ? null : cancel"
-    @click:outside="isPersistent ? null : cancel"
     :persistent="isPersistent"
+    @click:outside="isPersistent ? null : cancel"
+    @keydown.esc="isPersistent ? null : cancel"
   >
     <v-card>
       <v-card-title class="pa-0">
-        <v-toolbar dark :color="bgColor" dense elevation="0">
+        <v-toolbar :color="bgColor" dark dense elevation="0">
           <v-toolbar-title :class="'text-capitalize title ' + textColorClass">
             {{ title }}
           </v-toolbar-title>
@@ -23,19 +23,19 @@
       <v-card-actions class="pa-4">
         <v-spacer />
         <v-btn
-          elevation="0"
-          :color="btnColor"
           class="d-block"
+          :color="btnColor"
+          elevation="0"
           variant="text"
           @click="agree"
         >
           {{ options.agreeBtnText }}
         </v-btn>
         <v-btn
-          elevation="0"
           ref="btnNo"
+          :class="'d-block ml-4 cancel-btn btn-' + options.type"
+          elevation="0"
           variant="text"
-          :class="'d-block ml-4 cancel-btn btn-' + this.options.type"
           @click="cancel"
         >
           {{ options.denyBtnText }}
@@ -48,7 +48,7 @@
 <script>
   export default {
     name: 'ConfirmDialog',
-    data() {
+    data () {
       return {
         dialog: false,
         agreeCallback: null,
@@ -65,7 +65,7 @@
       }
     },
     computed: {
-      bgColor() {
+      bgColor () {
         const colors = {
           info: 'info',
           error: 'error',
@@ -74,7 +74,7 @@
 
         return colors[this.options.type || 'info']
       },
-      textColorClass() {
+      textColorClass () {
         const colors = {
           info: 'primary--text',
           error: 'error--text',
@@ -83,7 +83,7 @@
 
         return colors[this.options.type || 'info']
       },
-      btnColor() {
+      btnColor () {
         const colors = {
           info: 'primary',
           error: 'error',
@@ -94,7 +94,7 @@
       },
     },
     methods: {
-      open({
+      open ({
         title,
         msg,
         options,
@@ -110,16 +110,16 @@
         this.cancelCallback = cancel
         this.isPersistent = isPersistent
       },
-      async agree() {
+      async agree () {
         try {
           await this.agreeCallback()
-        } catch (e) {
-          console.error(e)
+        } catch (error) {
+          console.error(error)
         } finally {
           this.dialog = false
         }
       },
-      async cancel() {
+      async cancel () {
         await this.cancelCallback()
         this.dialog = false
       },

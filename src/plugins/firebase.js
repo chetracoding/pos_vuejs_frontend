@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import firebase from 'firebase'
 
 const firebaseConfig = {
   apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
@@ -8,8 +8,8 @@ const firebaseConfig = {
   messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGEING_SENDER_ID,
   appId: process.env.VUE_APP_FIREBASE_APP_ID,
   measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENT_ID,
-};
+}
 
-export function initFirebase() {
-  firebase.initializeApp(firebaseConfig);
+export function initFirebase () {
+  firebase.initializeApp(firebaseConfig)
 }
