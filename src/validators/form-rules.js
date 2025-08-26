@@ -1,5 +1,5 @@
 export const FORM_RULES = {
-  required: (v) => !!v || 'Field required',
+  required: (v) => !!v || 'Field is required',
   email: (v) =>
     !v ||
     /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(v) ||

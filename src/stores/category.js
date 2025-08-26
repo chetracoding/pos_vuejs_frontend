@@ -26,20 +26,8 @@ export const useCategoryStore = defineStore('category', {
 
       return data.data
     },
-    async storeCategory(category) {
-      try {
-        const res = await http.post('categories', category)
-        if (res.data.success) {
-          this.getCategory()
-        }
-      } catch (err) {
-        if (err.response.data.message) {
-          this.errMessage = err.response.data.message
-        }
-      }
-    },
-    async deleteCategoryById(id) {
-      http.delete(`categories/${id}`)
+    async createCategory(payload) {
+      http.post('categories', payload)
     },
     async updateCategory(category) {
       try {
@@ -56,16 +44,20 @@ export const useCategoryStore = defineStore('category', {
         }
       }
     },
-    // async updateCategory(category) {
-    //   console.log("Hello world" + category.name);
+    async deleteCategoryById(id) {
+      http.delete(`categories/${id}`)
+    },
+    // async storeCategory(category) {
     //   try {
-    //     const res = await http.put(`categories/${category.category_id}`, category);
+    //     const res = await http.post('categories', category)
     //     if (res.data.success) {
-    //       this.updateSuccess = true;
+    //       this.getCategory()
     //     }
     //   } catch (err) {
-    //     return err;
+    //     if (err.response.data.message) {
+    //       this.errMessage = err.response.data.message
+    //     }
     //   }
-    // }
+    // },
   },
 })

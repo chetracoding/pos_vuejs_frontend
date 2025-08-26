@@ -71,7 +71,12 @@
         @update:options="search"
       >
         <template #[`item.actions`]="{ item }">
-          <v-icon-btn icon="mdi-pencil" color="warning" variant="text" />
+          <v-icon-btn
+            icon="mdi-pencil"
+            color="warning"
+            variant="text"
+            @click="onEdit(item)"
+          />
           <v-icon-btn
             icon="mdi-delete"
             color="error"
@@ -83,7 +88,12 @@
     </div>
   </div>
 
-  <CategoryFormDialog v-model="isShowDialog" v-if="isShowDialog" />
+  <CategoryFormDialog
+    v-model="isShowDialog"
+    v-if="isShowDialog"
+    :form="editItem"
+    @load="search"
+  />
 </template>
 
 <script setup>
@@ -91,7 +101,7 @@
   import DataTable from '@/components/DataTable.vue'
   import CategoryFormDialog from '@/components/CategoryFormDialog.vue'
   import { ref, getCurrentInstance } from 'vue'
-  import { useCategoryStore } from '@/stores/category'
+  import { useCategoryStore } from '@/stores/index.js'
   import { storeToRefs } from 'pinia'
   import { format } from 'date-fns'
 
@@ -125,6 +135,7 @@
     itemsPerPage: 10,
     sortBy: [],
   })
+  const editItem = ref(null)
 
   // method
   const { getCategory, deleteCategoryById } = useCategoryStore()
@@ -173,6 +184,11 @@
     })
   }
   const onCreate = () => {
+    editItem.value = null
+    isShowDialog.value = true
+  }
+  const onEdit = (item) => {
+    editItem.value = item
     isShowDialog.value = true
   }
 </script>
