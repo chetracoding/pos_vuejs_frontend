@@ -1,14 +1,14 @@
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import VueApexCharts from 'vue3-apexcharts'
-import BaseSideBar from '@/components/aside/BaseSideBar'
 
 import CategoryForm from '@/components/form/CategoryForm'
+
 import ProductForm from '@/components/form/ProductForm'
 import StaffForm from '@/components/form/StaffForm'
 import TableForm from '@/components/form/TableForm'
-
 import UpdateProfileForm from '@/components/form/UpdateProfileForm'
+
 import UploadingProgress from '@/components/progress/UploadingProgress'
 import SummaryComponent from '@/components/summary/SummaryComponent'
 import OrderListTable from '@/components/table/OrderListTable'
@@ -26,6 +26,7 @@ import StaffCard from '@/components/widget/card/StaffCard'
 import TableCard from '@/components/widget/card/TableCard'
 import BaseDialog from '@/components/widget/dialog/BaseDialog'
 import HeaderComponent from '@/components/widget/header/HeaderComponent'
+import BaseHeader from '@/lib/components/BaseHeader.vue'
 import App from './App.vue'
 import { initFirebase } from './plugins/firebase.js'
 import i18n from './plugins/i18n'
@@ -34,6 +35,8 @@ import router from './router'
 // App
 const app = createApp(App)
 const pinia = createPinia()
+
+app.component('BaseHeader', BaseHeader)
 
 // Cards
 app.component('product-res-owner-card', ProductResOwnerCard)
@@ -44,7 +47,6 @@ app.component('staff-card', StaffCard)
 app.component('chef-order-card', ChefOrderCard)
 
 // Sidebars
-app.component('base-side-bar', BaseSideBar)
 app.component('header-component', HeaderComponent)
 app.component('summary-component', SummaryComponent)
 

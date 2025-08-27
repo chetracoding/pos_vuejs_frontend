@@ -4,7 +4,7 @@
       <v-alert
         v-for="notification of notifications"
         :key="notification.id"
-        class="mb-2"
+        class="mt-2 mr-2"
         closable
         :text="notification.msg"
         v-bind:="notification.opts"
@@ -15,8 +15,6 @@
 </template>
 
 <script>
-  import { ref } from 'vue'
-
   export default {
     setup () {
       // data

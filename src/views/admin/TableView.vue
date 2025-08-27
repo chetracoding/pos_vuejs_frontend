@@ -74,7 +74,6 @@
 </template>
 
 <script setup>
-  import BaseHeader from '@/components/BaseHeader.vue'
   import { useTableStore } from '@/stores/table'
 
   // Variables

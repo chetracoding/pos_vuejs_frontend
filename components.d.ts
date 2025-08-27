@@ -10,7 +10,8 @@ declare module 'vue' {
   export interface GlobalComponents {
     BaseAlert: typeof import('./src/components/widget/alert/BaseAlert.vue')['default']
     BaseDialog: typeof import('./src/components/widget/dialog/BaseDialog.vue')['default']
-    BaseHeader: typeof import('./src/components/BaseHeader.vue')['default']
+    BaseHeader: typeof import('./src/components/BaseHeaderOld.vue')['default']
+    BaseHeaderOld: typeof import('./src/components/BaseHeaderOld.vue')['default']
     BaseSideBar: typeof import('./src/components/aside/BaseSideBar.vue')['default']
     CategoryCard: typeof import('./src/components/widget/card/CategoryCard.vue')['default']
     CategoryForm: typeof import('./src/components/form/CategoryForm.vue')['default']

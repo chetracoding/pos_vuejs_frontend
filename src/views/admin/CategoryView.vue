@@ -1,45 +1,45 @@
 <template>
-  <BaseHeader :title="$t('app.crud.category.title')" />
-
   <div class="app-wrapper">
     <div>
-      <div class="d-flex justify-end mb-2">
-        <v-btn
-          v-if="isFilter"
-          class="text-none mr-2"
-          color="error"
-          prepend-icon="mdi-filter-remove-outline"
-          variant="outlined"
-          @click="clearFilter"
-        >
-          Clear
-        </v-btn>
+      <BaseHeader :title="$t('app.crud.category.title')">
+        <div class="d-flex justify-end">
+          <v-btn
+            v-if="isFilter"
+            class="text-none mr-2"
+            color="error"
+            prepend-icon="mdi-filter-remove-outline"
+            variant="outlined"
+            @click="clearFilter"
+          >
+            Clear
+          </v-btn>
 
-        <v-btn
-          class="text-none mr-2"
-          color="warning"
-          prepend-icon="mdi-filter-outline"
-          :variant="isFilter ? 'flat' : 'outlined'"
-          @click="isFilter = !isFilter"
-        >
-          Filter
-        </v-btn>
-        <v-btn
-          class="text-none"
-          color="primary"
-          prepend-icon="mdi-plus"
-          @click="onCreate"
-        >
-          Create
-        </v-btn>
-      </div>
+          <v-btn
+            class="text-none mr-2"
+            color="warning"
+            prepend-icon="mdi-filter-outline"
+            :variant="isFilter ? 'flat' : 'outlined'"
+            @click="isFilter = !isFilter"
+          >
+            Filter
+          </v-btn>
+          <v-btn
+            class="text-none"
+            color="primary"
+            prepend-icon="mdi-plus"
+            @click="onCreate"
+          >
+            Create
+          </v-btn>
+        </div>
+      </BaseHeader>
 
       <v-card v-if="isFilter" class="mb-2 pa-3" rounded="3">
         <v-row dense>
           <v-col cols="12" sm="6">
             <v-text-field
               v-model="filter.id"
-              density="comfortable"
+              density="compact"
               hide-details="auto"
               label="Identifier"
               variant="outlined"
@@ -49,7 +49,7 @@
           <v-col cols="12" sm="6">
             <v-text-field
               v-model="filter.name"
-              density="comfortable"
+              density="compact"
               hide-details="auto"
               label="Name"
               variant="outlined"
@@ -99,7 +99,6 @@
 <script setup>
   import { format } from 'date-fns'
   import { storeToRefs } from 'pinia'
-  import BaseHeader from '@/components/BaseHeader.vue'
   import CategoryFormDialog from '@/components/CategoryFormDialog.vue'
   import DataTable from '@/components/DataTable.vue'
   import { useCategoryStore } from '@/stores/index.js'

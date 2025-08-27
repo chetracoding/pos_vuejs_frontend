@@ -1,11 +1,9 @@
 <template>
   <v-layout>
-    <ResOwnerSideBar />
+    <BaseSideBar :rail="rail" />
 
-    <v-main class="mx-2">
-      <!-- <header-component :title="$t('app.crud.category.title')">
-      </header-component> -->
-
+    <v-main class="mx-2 mt-2">
+      <BaseAppBar @click-menu=" rail = !rail" />
       <main class="d-flex flex-column mt-2">
         <RouterView />
       </main>
@@ -14,6 +12,8 @@
 </template>
 
 <script setup>
-  import { RouterView } from 'vue-router'
-  import ResOwnerSideBar from '@/components/aside/ResOwnerSideBar.vue'
+  import BaseAppBar from '@/lib/components/BaseAppBar.vue'
+  import BaseSideBar from '@/lib/components/BaseSideBar.vue'
+
+  const rail = ref(false)
 </script>
